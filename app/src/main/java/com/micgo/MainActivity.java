@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.micgo.demos.OthersActivity;
 import com.micgo.ffmpeg.PrimaryActivity;
 import com.micgo.studio.NativeLib;
 
@@ -23,8 +24,12 @@ public class MainActivity extends AppCompatActivity {
         switch (id)
         {
             case R.id.ffmpeg_primary:
-                Intent intent = PrimaryActivity.buildIntent(this);
-                startActivity(intent);
+                Intent priaryIntent = PrimaryActivity.buildIntent(this);
+                startActivity(priaryIntent);
+                break;
+            case R.id.others:
+                Intent demosIntent = OthersActivity.buildIntent(this);
+                startActivity(demosIntent);
                 break;
         }
     }

@@ -21,3 +21,14 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.2'
+    minSdkVersion = 21
+    // libzmq.so 问题, targetSdkVersion暂时不能升高
+    targetSdkVersion = 25
+
+    androidSupportAppCompat = 'com.android.support:appcompat-v7:25.1.0'
+
+}

@@ -17,4 +17,10 @@
         <item name="android:onClick">onClick</item>
     </style>
 
+    <style name="TextViewTheme" >
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:background">#FFFFFF</item>
+    </style>
+
 </resources>

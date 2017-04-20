@@ -21,6 +21,11 @@
                 style="@style/ButtonTheme"
                 android:text="ffmpeg primary"/>
 
+            <Button
+                android:id="@+id/others"
+                style="@style/ButtonTheme"
+                android:text="others"/>
+
         </LinearLayout>
 
     </ScrollView>
