@@ -2,6 +2,7 @@ package com.micgo.demos;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,18 +40,23 @@ public class CheckMetadataActivity extends AppCompatActivity {
         File file = new File(musicFilePath);
         pathText.setText(musicFilePath + " | exist = " + file.exists());
         if (file != null && file.exists()) {
-            checkDuration(file);
+            checkDataSource(file);
         }
     }
 
-    private void checkDuration(File file) {
-        Uri uri = Uri.fromFile(file);
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, uri);
-//        MediaFormat mediaFormat = new MediaFormat();
-//        mediaFormat.
-        if (mediaPlayer != null) {
-            durationText.setText(String.valueOf(mediaPlayer.getDuration()));
-        }
+    private void checkDataSource(File file) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(file.getAbsolutePath());
+
+        String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE); // api level 10, 即从GB2.3.3开始有此功能
+        String album = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM);
+        String mime = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+        String artist = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST);
+        String duration = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION); // 播放时长单位为毫秒
+        String bitrate = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE); // 从api level 14才有，即从ICS4.0才有此功能
+        String date = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
+
+        durationText.setText(title + '\n' + album + '\n' + mime + '\n' + artist  + '\n' + duration + '\n' + bitrate + '\n' + date);
     }
 
     public static Intent buildIntent(Context context) {
