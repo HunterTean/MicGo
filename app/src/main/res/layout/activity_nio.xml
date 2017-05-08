@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/result_tx"
+        style="@style/ButtonTheme"
+        android:minHeight="100dp"
+        android:text="tips..."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/write_btn"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text="write"/>
+
+        <Button
+            android:id="@+id/break_btn"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text="break"/>
+
+        <Button
+            android:id="@+id/read_btn"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text="read"/>
+
+    </LinearLayout>
+
+</LinearLayout>

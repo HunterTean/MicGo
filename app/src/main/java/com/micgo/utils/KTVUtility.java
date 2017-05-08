@@ -1,8 +1,12 @@
 package com.micgo.utils;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by liuhongtian on 17/4/19.
@@ -35,6 +39,35 @@ public class KTVUtility {
             }
         }
         return sdDir;
+    }
+
+    public final static String getMD5Hex(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return "";
+        }
+
+        byte data[];
+        try {
+            data = getMD5(str.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            data = getMD5(str.getBytes());
+        }
+        StringBuilder sb = new StringBuilder();
+        for (byte aData : data) {
+            sb.append(Integer.toString((aData & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString();
+    }
+
+    public static byte[] getMD5(byte data[]) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(data);
+            return digest.digest();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

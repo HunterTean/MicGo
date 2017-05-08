@@ -31,6 +31,10 @@ public class OthersActivity extends AppCompatActivity {
                 Intent checkIntent = CheckMetadataActivity.buildIntent(this);
                 startActivity(checkIntent);
                 break;
+            case R.id.nio:
+                Intent nioIntent = NIOActivity.buildIntent(this);
+                startActivity(nioIntent);
+                break;
             default:
 
                 break;

@@ -17,6 +17,10 @@
         <item name="android:onClick">onClick</item>
     </style>
 
+    <style name="CommonButtonTheme" parent="ButtonTheme" >
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
     <style name="TextViewTheme" >
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/colorPrimary</item>

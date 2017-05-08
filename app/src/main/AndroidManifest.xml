@@ -25,6 +25,7 @@
         <activity android:name=".ffmpeg.PrimaryActivity"/>
         <activity android:name=".demos.OthersActivity"/>
         <activity android:name=".demos.CheckMetadataActivity"/>
+        <activity android:name=".demos.NIOActivity"/>
 
     </application>
 
