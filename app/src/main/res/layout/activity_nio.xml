@@ -5,9 +5,10 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/result_tx"
+        android:id="@+id/tips_tx"
         style="@style/ButtonTheme"
         android:minHeight="100dp"
+        android:maxHeight="150dp"
         android:text="tips..."/>
 
     <LinearLayout
@@ -33,6 +34,31 @@
             style="@style/CommonButtonTheme"
             android:layout_weight="1"
             android:text="read"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/delete_btn"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text="delete"/>
+
+        <Button
+            android:id="@+id/crash_btn"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text="crash"/>
+
+        <Button
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:text=""/>
 
     </LinearLayout>
 

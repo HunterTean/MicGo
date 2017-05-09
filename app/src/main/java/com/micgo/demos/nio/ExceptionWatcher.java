@@ -2,11 +2,12 @@ package com.micgo.demos.nio;
 
 import com.micgo.utils.KTVUtility;
 
-import org.json.JSONObject;
-
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
@@ -31,13 +32,49 @@ public class ExceptionWatcher {
     }
 
     public String check(String key) {
-        return "";
+        FileInputStream fis = null;
+        FileChannel channel=null;
+        String content = "";
+        try {
+            fis = new FileInputStream(KTVUtility.getMGFile(key));
+            channel=fis.getChannel();
+            //文件内容的大小
+            int size=(int) channel.size();
+
+            //第二步 指定缓冲区
+            ByteBuffer buffer=ByteBuffer.allocate(1024);
+            //第三步 将通道中的数据读取到缓冲区中
+            channel.read(buffer);
+
+            Buffer bf= buffer.flip();
+            System.out.println("limt:"+bf.limit());
+
+            byte[] bt=buffer.array();
+            content = new String(bt,0,size);
+
+            buffer.clear();
+            buffer=null;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                channel.close();
+                fis.close();
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return content;
     }
 
     public void register(String key, String content) {
         RandomAccessFile aFile = null;
         try{
-            aFile = new RandomAccessFile(KTVUtility.getMGFileDir().getAbsolutePath()+ File.separator+key,"rw");
+            aFile = new RandomAccessFile(KTVUtility.getMGFile(key), "w");
             FileChannel fileChannel = aFile.getChannel();
             ByteBuffer buf = ByteBuffer.wrap(content.getBytes());
             buf.put(content.getBytes());
@@ -57,7 +94,10 @@ public class ExceptionWatcher {
     }
 
     public void unregister(String key) {
-
+        File file = KTVUtility.getMGFile(key);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
 }

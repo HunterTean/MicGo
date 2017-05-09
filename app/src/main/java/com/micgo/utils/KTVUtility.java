@@ -4,6 +4,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +14,20 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class KTVUtility {
+
+    public static File getMGFile(String fileName) {
+        String path = getMGFileDir().getAbsolutePath() + File.separator + fileName;
+        File file = new File(path);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+
+            }
+        }
+
+        return file;
+    }
 
     public static File getMGFileDir() {
         File sdDir = getSDPath();

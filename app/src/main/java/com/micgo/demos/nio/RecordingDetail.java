@@ -30,4 +30,8 @@ public class RecordingDetail {
         this.leftStorage = leftStorage;
     }
 
+    public String toString() {
+        return "RecordingDetail | songId = " + songId + " | accompanyUrl = " + accompanyUrl + " | originalUrl = " + originalUrl + " | isAudio = " + isAudio + " | isDuet = " + isDuet + " | isJoin = " + isJoin + " | startRecordTime = " + startRecordTime + " | leftStorage = " + leftStorage;
+    }
+
 }
