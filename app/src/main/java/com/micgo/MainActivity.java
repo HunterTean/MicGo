@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.micgo.demos.OthersActivity;
+import com.micgo.exoplayer.ExoPlayerActivity;
 import com.micgo.ffmpeg.PrimaryActivity;
 import com.micgo.studio.NativeLib;
 import com.micgo.utils.KTVLog;
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ffmpeg_primary:
                 Intent priaryIntent = PrimaryActivity.buildIntent(this);
                 startActivity(priaryIntent);
+                break;
+            case R.id.exoplayer:
+                Intent exoIntent = ExoPlayerActivity.buildIntent(this);
+                startActivity(exoIntent);
                 break;
             case R.id.others:
                 Intent demosIntent = OthersActivity.buildIntent(this);

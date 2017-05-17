@@ -74,7 +74,7 @@ public class ExceptionWatcher {
     public void register(String key, String content) {
         RandomAccessFile aFile = null;
         try{
-            aFile = new RandomAccessFile(KTVUtility.getMGFile(key), "w");
+            aFile = new RandomAccessFile(KTVUtility.getMGFile(key), "rw");
             FileChannel fileChannel = aFile.getChannel();
             ByteBuffer buf = ByteBuffer.wrap(content.getBytes());
             buf.put(content.getBytes());

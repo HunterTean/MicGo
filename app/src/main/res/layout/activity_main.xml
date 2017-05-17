@@ -22,6 +22,11 @@
                 android:text="ffmpeg primary"/>
 
             <Button
+                android:id="@+id/exoplayer"
+                style="@style/ButtonTheme"
+                android:text="exoplayer"/>
+
+            <Button
                 android:id="@+id/others"
                 style="@style/ButtonTheme"
                 android:text="others"/>
