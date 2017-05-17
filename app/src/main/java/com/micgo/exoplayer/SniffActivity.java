@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.micgo.R;
-import com.micgo.exoplayer.sniff.MetadataChecker;
+import com.micgo.exoplayer.sniff.MetadataSniff;
 import com.micgo.utils.KTVLog;
 import com.micgo.utils.KTVUtility;
 
@@ -83,27 +83,27 @@ public class SniffActivity extends AppCompatActivity {
 
                             File file = new File(subSongName, subDirName[j]);
                             final Uri uri = Uri.fromFile(file);
-                            MetadataChecker metadataChecker = new MetadataChecker(uri, new MetadataChecker.OnCheckListener() {
+                            MetadataSniff metadataSniff = new MetadataSniff(uri, new MetadataSniff.OnCheckListener() {
                                 @Override
                                 public void onComplete(boolean result) {
                                     if (result) {
                                         if (!uri.toString().endsWith(".mp3")) {
-                                            KTVLog.d(TAG, "MetadataChecker onComplete true other | uri = " + uri);
+                                            KTVLog.d(TAG, "MetadataSniff onComplete true other | uri = " + uri);
                                         }
                                     } else {
                                         if (uri.toString().endsWith(".mp3")) {
-                                            KTVLog.d(TAG, "MetadataChecker onComplete false mp3 | uri = " + uri);
+                                            KTVLog.d(TAG, "MetadataSniff onComplete false mp3 | uri = " + uri);
                                         }
                                     }
                                 }
                             });
-                            metadataChecker.start();
+                            metadataSniff.start();
 
-                            KTVLog.d(TAG, "MetadataChecker check index = " + j + " | " + uri + " | time = " + (System.currentTimeMillis() - cTime));
+                            KTVLog.d(TAG, "MetadataSniff check index = " + j + " | " + uri + " | time = " + (System.currentTimeMillis() - cTime));
                         }
                     }
 //                }
-                KTVLog.d(TAG, "MetadataChecker done | totalTime = " + (System.currentTimeMillis() - currentTime));
+                KTVLog.d(TAG, "MetadataSniff done | totalTime = " + (System.currentTimeMillis() - currentTime));
             }
         }
     }

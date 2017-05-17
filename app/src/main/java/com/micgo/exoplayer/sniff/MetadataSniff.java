@@ -24,13 +24,13 @@ import java.util.List;
  * Created by liuhongtian on 17/5/16.
  */
 // 用于检验音频文件是否被底层所支持，排除异常伴奏文件
-public class MetadataChecker {
+public class MetadataSniff {
 
     private final List<Extractor> extractors;
     private Uri uri;
     private OnCheckListener onCheckListener;
 
-    public MetadataChecker(Uri uri, OnCheckListener onCheckListener) {
+    public MetadataSniff(Uri uri, OnCheckListener onCheckListener) {
         extractors = new ArrayList<Extractor>();
         extractors.clear();
         extractors.add(new Mp3Extractor());
