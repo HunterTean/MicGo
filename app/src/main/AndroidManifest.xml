@@ -23,6 +23,7 @@
         </activity>
 
         <activity android:name=".ffmpeg.PrimaryActivity"/>
+        <activity android:name=".ffmpeg.AudioEncodeActivity"/>
         <activity android:name=".demos.OthersActivity"/>
         <activity android:name=".demos.CheckMetadataActivity"/>
         <activity android:name=".demos.NIOActivity"/>

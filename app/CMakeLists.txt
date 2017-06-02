@@ -19,7 +19,8 @@ add_library(
              # Provides a relative path to your source file(s).
              # Associated headers in the same location as their source
              # file are automatically included.
-             src/main/cpp/native-lib.cpp)
+             src/main/cpp/nativelib/native_lib.cpp
+             src/main/cpp/nativelib/thread_rename.cpp)
 
 add_library( imported-lib SHARED IMPORTED )
 

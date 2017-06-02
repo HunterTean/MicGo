@@ -6,32 +6,39 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.micgo.R;
+import com.micgo.studio.NativeLib;
 
 /**
- * Created by liuhongtian on 17/2/25.
+ * Created by liuhongtian on 17/5/19.
  */
 
-public class PrimaryActivity extends AppCompatActivity {
+public class AudioEncodeActivity extends AppCompatActivity {
+
+    TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ffmpeg_primary);
+        setContentView(R.layout.activity_audio_encode);
 
-        setTitle("FFmpeg Primary");
+        setTitle("Audio Encode");
+
+        textView = (TextView) findViewById(R.id.tips_tx);
+        textView.setText(NativeLib.getInstance().stringFromJNI());
     }
 
     public void onClick(View view) {
         int id = view.getId();
         switch (id)
         {
-            case R.id.audio_encode:
-                Intent audioEncodeIntent = AudioEncodeActivity.buildIntent(this);
-                startActivity(audioEncodeIntent);
+            case R.id.a_btn:
+                NativeLib.getInstance().createThread();
+                textView.setText("start thread!");
                 break;
-            case R.id.video_encode:
+            case R.id.b_btn:
 
                 break;
             default:
@@ -41,7 +48,7 @@ public class PrimaryActivity extends AppCompatActivity {
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, PrimaryActivity.class);
+        Intent intent = new Intent(context, AudioEncodeActivity.class);
         return intent;
     }
 
