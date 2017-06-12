@@ -27,6 +27,7 @@
         <activity android:name=".demos.OthersActivity"/>
         <activity android:name=".demos.CheckMetadataActivity"/>
         <activity android:name=".demos.NIOActivity"/>
+        <activity android:name=".demos.RBLActivity"/>
         <activity android:name=".exoplayer.ExoPlayerActivity"/>
         <activity android:name=".exoplayer.SniffActivity"/>
 

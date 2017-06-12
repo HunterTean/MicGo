@@ -25,6 +25,11 @@
                 style="@style/ButtonTheme"
                 android:text="nio" />
 
+            <Button
+                android:id="@+id/rbl"
+                style="@style/ButtonTheme"
+                android:text="rbl" />
+
         </LinearLayout>
 
     </ScrollView>

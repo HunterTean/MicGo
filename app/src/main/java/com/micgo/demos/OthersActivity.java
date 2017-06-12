@@ -35,6 +35,10 @@ public class OthersActivity extends AppCompatActivity {
                 Intent nioIntent = NIOActivity.buildIntent(this);
                 startActivity(nioIntent);
                 break;
+            case R.id.rbl:
+                Intent rblIntent = RBLActivity.buildIntent(this);
+                startActivity(rblIntent);
+                break;
             default:
 
                 break;
