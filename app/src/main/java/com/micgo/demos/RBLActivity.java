@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.micgo.R;
-import com.micgo.demos.rbl.UUIDs;
 
 import java.util.UUID;
 
