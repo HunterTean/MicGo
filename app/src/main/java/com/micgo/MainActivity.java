@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent priaryIntent = PrimaryActivity.buildIntent(this);
                 startActivity(priaryIntent);
                 break;
+            case R.id.ffmpeg_lab:
+                break;
+            case R.id.media_codec:
+                break;
             case R.id.exoplayer:
                 Intent exoIntent = ExoPlayerActivity.buildIntent(this);
                 startActivity(exoIntent);

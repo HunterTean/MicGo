@@ -20,6 +20,11 @@
                 style="@style/ButtonTheme"
                 android:text="sniff files" />
 
+            <Button
+                android:id="@+id/play_list"
+                style="@style/ButtonTheme"
+                android:text="play list" />
+
         </LinearLayout>
 
     </ScrollView>

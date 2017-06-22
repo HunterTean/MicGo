@@ -34,6 +34,10 @@ public class ExoPlayerActivity extends AppCompatActivity {
                 Intent checkIntent = SniffActivity.buildIntent(this);
                 startActivity(checkIntent);
                 break;
+            case R.id.play_list:
+                Intent listIntent = PlayListAvtivity.buildIntent(this);
+                startActivity(listIntent);
+                break;
             default:
 
                 break;
