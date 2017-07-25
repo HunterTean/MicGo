@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -17,24 +16,14 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/ffmpeg"
+                android:id="@+id/primary"
                 style="@style/ButtonTheme"
-                android:text="ffmpeg"/>
+                android:text="ffmpeg primary" />
 
             <Button
-                android:id="@+id/media_codec"
+                android:id="@+id/lab"
                 style="@style/ButtonTheme"
-                android:text="mediacodec"/>
-
-            <Button
-                android:id="@+id/exoplayer"
-                style="@style/ButtonTheme"
-                android:text="exoplayer"/>
-
-            <Button
-                android:id="@+id/others"
-                style="@style/ButtonTheme"
-                android:text="others"/>
+                android:text="ffmpeg lab" />
 
         </LinearLayout>
 

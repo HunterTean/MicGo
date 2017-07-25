@@ -8,30 +8,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
+import com.micgo.ffmpeg.primary.FFmpegPrimaryActivity;
 
 /**
- * Created by liuhongtian on 17/2/25.
+ * Created by liuhongtian on 17/7/25.
  */
 
-public class PrimaryActivity extends AppCompatActivity {
+public class FFmpegActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ffmpeg_primary);
+        setContentView(R.layout.activity_ffmpeg);
 
-        setTitle("FFmpeg Primary");
+        setTitle("FFmpeg");
     }
 
     public void onClick(View view) {
         int id = view.getId();
         switch (id)
         {
-            case R.id.audio_encode:
-                Intent audioEncodeIntent = AudioEncodeActivity.buildIntent(this);
+            case R.id.primary:
+                Intent audioEncodeIntent = FFmpegPrimaryActivity.buildIntent(this);
                 startActivity(audioEncodeIntent);
                 break;
-            case R.id.video_encode:
+            case R.id.lab:
 
                 break;
             default:
@@ -41,7 +42,7 @@ public class PrimaryActivity extends AppCompatActivity {
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, PrimaryActivity.class);
+        Intent intent = new Intent(context, FFmpegActivity.class);
         return intent;
     }
 

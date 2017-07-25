@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.micgo.ffmpeg.FFmpegActivity;
 import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
-import com.micgo.ffmpeg.PrimaryActivity;
 import com.micgo.studio.NativeLib;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,11 +25,9 @@ public class MainActivity extends AppCompatActivity {
         int id = v.getId();
         switch (id)
         {
-            case R.id.ffmpeg_primary:
-                Intent priaryIntent = PrimaryActivity.buildIntent(this);
+            case R.id.ffmpeg:
+                Intent priaryIntent = FFmpegActivity.buildIntent(this);
                 startActivity(priaryIntent);
-                break;
-            case R.id.ffmpeg_lab:
                 break;
             case R.id.media_codec:
                 break;

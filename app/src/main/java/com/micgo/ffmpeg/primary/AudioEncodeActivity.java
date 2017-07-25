@@ -1,4 +1,4 @@
-package com.micgo.ffmpeg;
+package com.micgo.ffmpeg.primary;
 
 import android.content.Context;
 import android.content.Intent;
