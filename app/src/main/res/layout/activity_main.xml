@@ -27,6 +27,11 @@
                 android:text="mediacodec"/>
 
             <Button
+                android:id="@+id/opensl"
+                style="@style/ButtonTheme"
+                android:text="OpenSL ES"/>
+
+            <Button
                 android:id="@+id/exoplayer"
                 style="@style/ButtonTheme"
                 android:text="exoplayer"/>

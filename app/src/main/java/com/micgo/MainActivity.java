@@ -29,12 +29,18 @@ public class MainActivity extends AppCompatActivity {
                 Intent priaryIntent = FFmpegActivity.buildIntent(this);
                 startActivity(priaryIntent);
                 break;
+
             case R.id.media_codec:
                 break;
+
+            case R.id.opensl:
+                break;
+
             case R.id.exoplayer:
                 Intent exoIntent = ExoPlayerActivity.buildIntent(this);
                 startActivity(exoIntent);
                 break;
+
             case R.id.others:
                 Intent demosIntent = OthersActivity.buildIntent(this);
                 startActivity(demosIntent);

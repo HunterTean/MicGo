@@ -18,12 +18,12 @@
             <Button
                 android:id="@+id/primary"
                 style="@style/ButtonTheme"
-                android:text="ffmpeg primary" />
+                android:text="primary" />
 
             <Button
                 android:id="@+id/lab"
                 style="@style/ButtonTheme"
-                android:text="ffmpeg lab" />
+                android:text="lab" />
 
         </LinearLayout>
 
