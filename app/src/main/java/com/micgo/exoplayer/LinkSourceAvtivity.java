@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -16,9 +15,9 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -31,26 +30,25 @@ import java.io.IOException;
  * Created by liuhongtian on 17/6/22.
  */
 
-public class PlayListAvtivity extends AppCompatActivity {
+public class LinkSourceAvtivity extends AppCompatActivity {
 
-    private static final String TAG = "PlayListAvtivity";
+    private static final String TAG = "LinkSourceAvtivity";
 
     private Uri firstUri = Uri.parse("http://qiniuuwmp3.changba.com/913447182.mp4");
-//    private Uri secondUri = Uri.parse("http://qiniuuwmp3.changba.com/913673283.mp3");
-    private Uri secondUri = Uri.parse("http://lzaiuw.changba.com/userdata/video/832436415.mp4");
-    private Uri thirdUri = Uri.parse("http://qiniuuwmp3.changba.com/913447182.mp4");
+    private Uri secondUri = Uri.parse("http://qiniuuwmp3.changba.com/913673283.mp3");
+    private Uri thirdUri = Uri.parse("http://lzaiuw.changba.com/userdata/video/832436415.mp4");
 
     private SimpleExoPlayer player;
 
-    private PLEventListener plEventListener = new PLEventListener();
-    private PLStateListener plStateListener = new PLStateListener();
+    private MSEventListener plEventListener = new MSEventListener();
+    private MSStateListener plStateListener = new MSStateListener();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
 
-        setTitle("PlayList");
+        setTitle("MergingSource");
 
         preparePlayer();
     }
@@ -60,7 +58,7 @@ public class PlayListAvtivity extends AppCompatActivity {
         MediaSource secondSource = new ExtractorMediaSource(secondUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
         MediaSource thirdSource = new ExtractorMediaSource(thirdUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
 
-        ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource(firstSource, secondSource, thirdSource, firstSource);
+        MergingMediaSource mergingMediaSource = new MergingMediaSource(firstSource, secondSource, thirdSource);
 
         player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector(new Handler()), new DefaultLoadControl());
         player.addListener(plStateListener);
@@ -68,7 +66,7 @@ public class PlayListAvtivity extends AppCompatActivity {
         SimpleExoPlayerView simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.simple_exo_player_view);
 
         simpleExoPlayerView.setPlayer(player);
-        player.prepare(concatenatingMediaSource);
+        player.prepare(mergingMediaSource);
         player.setPlayWhenReady(true);
     }
 
@@ -81,43 +79,43 @@ public class PlayListAvtivity extends AppCompatActivity {
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, PlayListAvtivity.class);
+        Intent intent = new Intent(context, LinkSourceAvtivity.class);
         return intent;
     }
 
-    private class PLEventListener implements ExtractorMediaSource.EventListener {
+    private class MSEventListener implements ExtractorMediaSource.EventListener {
 
         @Override
         public void onLoadError(IOException error) {
-            KTVLog.d(TAG, "PLEventListener onLoadError : " + error);
+            KTVLog.d(TAG, "MSEventListener onLoadError : " + error);
         }
     }
 
-    private class PLStateListener implements ExoPlayer.EventListener {
+    private class MSStateListener implements ExoPlayer.EventListener {
 
         @Override
         public void onLoadingChanged(boolean isLoading) {
-            KTVLog.d(TAG, "PLStateListener onLoadingChanged : " + isLoading);
+            KTVLog.d(TAG, "MSStateListener onLoadingChanged : " + isLoading);
         }
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-            KTVLog.d(TAG, "PLStateListener onPlayerStateChanged | playWhenReady : " + playWhenReady + " | playbackState : " + playbackState);
+            KTVLog.d(TAG, "MSStateListener onPlayerStateChanged | playWhenReady : " + playWhenReady + " | playbackState : " + playbackState);
         }
 
         @Override
         public void onTimelineChanged(Timeline timeline, Object manifest) {
-            KTVLog.d(TAG, "PLStateListener onTimelineChanged");
+            KTVLog.d(TAG, "MSStateListener onTimelineChanged");
         }
 
         @Override
         public void onPlayerError(ExoPlaybackException error) {
-            KTVLog.d(TAG, "PLStateListener onPlayerError : " + error);
+            KTVLog.d(TAG, "MSStateListener onPlayerError : " + error);
         }
 
         @Override
         public void onPositionDiscontinuity() {
-            KTVLog.d(TAG, "PLStateListener onPositionDiscontinuity");
+            KTVLog.d(TAG, "MSStateListener onPositionDiscontinuity");
         }
     }
 

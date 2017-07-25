@@ -1,4 +1,4 @@
-package com.micgo.demos;
+package com.micgo.others;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.micgo.MicGoApplication;
 import com.micgo.R;
-import com.micgo.demos.nio.ExceptionWatcher;
-import com.micgo.demos.nio.RecordingDetail;
+import com.micgo.others.nio.ExceptionWatcher;
+import com.micgo.others.nio.RecordingDetail;
 import com.micgo.utils.KTVLog;
 
 import org.json.JSONException;

@@ -3,15 +3,12 @@ package com.micgo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
-import com.micgo.demos.OthersActivity;
+import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
 import com.micgo.ffmpeg.PrimaryActivity;
 import com.micgo.studio.NativeLib;
-import com.micgo.utils.KTVLog;
-import com.micgo.utils.KTVUtility;
 
 public class MainActivity extends AppCompatActivity {
 

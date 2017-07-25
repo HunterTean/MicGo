@@ -25,6 +25,11 @@
                 style="@style/ButtonTheme"
                 android:text="play list" />
 
+            <Button
+                android:id="@+id/link_source"
+                style="@style/ButtonTheme"
+                android:text="merging source" />
+
         </LinearLayout>
 
     </ScrollView>

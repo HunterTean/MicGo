@@ -1,4 +1,4 @@
-package com.micgo.demos;
+package com.micgo.others;
 
 import android.content.Context;
 import android.content.Intent;

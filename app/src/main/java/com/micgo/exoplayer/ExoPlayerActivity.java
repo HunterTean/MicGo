@@ -8,9 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
-import com.micgo.demos.CheckMetadataActivity;
-import com.micgo.demos.NIOActivity;
-import com.micgo.demos.OthersActivity;
 
 /**
  * Created by liuhongtian on 17/5/17.
@@ -37,6 +34,10 @@ public class ExoPlayerActivity extends AppCompatActivity {
             case R.id.play_list:
                 Intent listIntent = PlayListAvtivity.buildIntent(this);
                 startActivity(listIntent);
+                break;
+            case R.id.link_source:
+                Intent mergingIntent = LinkSourceAvtivity.buildIntent(this);
+                startActivity(mergingIntent);
                 break;
             default:
 
