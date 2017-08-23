@@ -27,6 +27,8 @@
         <activity android:name=".ffmpeg.FFmpegActivity"/>
         <activity android:name=".ffmpeg.primary.FFmpegPrimaryActivity"/>
         <activity android:name=".ffmpeg.primary.AudioEncodeActivity"/>
+        <activity android:name=".mediacodec.MediaCodecActivity"/>
+        <activity android:name=".mediacodec.SimpleAudioActivity"/>
         <activity android:name=".others.OthersActivity"/>
         <activity android:name=".others.CheckMetadataActivity"/>
         <activity android:name=".others.NIOActivity"/>
