@@ -28,6 +28,10 @@ public class MediaCodecActivity extends AppCompatActivity {
         int id = view.getId();
         switch (id)
         {
+            case R.id.audiotrack_play_pcm:
+                Intent audioTrackIntent = AudioTrackPcmActivity.buildIntent(this);
+                startActivity(audioTrackIntent);
+                break;
             case R.id.simple_audio:
                 Intent simpleAudioIntent = SimpleAudioActivity.buildIntent(this);
                 startActivity(simpleAudioIntent);
