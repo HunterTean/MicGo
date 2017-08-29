@@ -54,7 +54,19 @@ public class CheckMetadataActivity extends AppCompatActivity {
         String bitrate = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE); // 从api level 14才有，即从ICS4.0才有此功能
         String date = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE);
 
-        durationText.setText(title + '\n' + album + '\n' + mime + '\n' + artist  + '\n' + duration + '\n' + bitrate + '\n' + date);
+        durationText.setText("METADATA_KEY_TITLE : " + title + '\n'
+                +
+                "METADATA_KEY_ALBUM : " + album + '\n'
+                +
+                "METADATA_KEY_MIMETYPE : " + mime + '\n'
+                +
+                "METADATA_KEY_ARTIST : " + artist  + '\n'
+                +
+                "METADATA_KEY_DURATION(ms) : " + duration + '\n'
+                +
+                "METADATA_KEY_BITRATE(b/s) : " + bitrate + '\n'
+                +
+                "METADATA_KEY_DATE : " + date);
     }
 
     public static Intent buildIntent(Context context) {
