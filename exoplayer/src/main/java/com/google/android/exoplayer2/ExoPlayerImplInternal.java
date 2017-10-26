@@ -1160,8 +1160,8 @@ import java.io.IOException;
             formats[j] = newSelection.getFormat(j);
           }
           // Enable the renderer.
-          renderer.enable(formats, playingPeriodHolder.sampleStreams[i], rendererPositionUs,
-              joining, playingPeriodHolder.rendererPositionOffsetUs);
+            renderer.enable(formats, playingPeriodHolder.sampleStreams[i], rendererPositionUs,
+                joining, playingPeriodHolder.rendererPositionOffsetUs);
           MediaClock mediaClock = renderer.getMediaClock();
           if (mediaClock != null) {
             if (rendererMediaClock != null) {

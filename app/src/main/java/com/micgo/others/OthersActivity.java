@@ -39,6 +39,10 @@ public class OthersActivity extends AppCompatActivity {
                 Intent rblIntent = RBLActivity.buildIntent(this);
                 startActivity(rblIntent);
                 break;
+            case R.id.serial_read:
+                Intent srIntent = SerialReadActivity.buildIntent(this);
+                startActivity(srIntent);
+                break;
             default:
 
                 break;

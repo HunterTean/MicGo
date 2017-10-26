@@ -30,6 +30,11 @@
                 style="@style/ButtonTheme"
                 android:text="rbl" />
 
+            <Button
+                android:id="@+id/serial_read"
+                style="@style/ButtonTheme"
+                android:text="serial read" />
+
         </LinearLayout>
 
     </ScrollView>

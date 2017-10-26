@@ -34,6 +34,7 @@
         <activity android:name=".others.CheckMetadataActivity"/>
         <activity android:name=".others.NIOActivity"/>
         <activity android:name=".others.RBLActivity"/>
+        <activity android:name=".others.SerialReadActivity"/>
         <activity android:name=".exoplayer.ExoPlayerActivity"/>
         <activity android:name=".exoplayer.SniffActivity"/>
         <activity android:name=".exoplayer.PlayListAvtivity"/>
