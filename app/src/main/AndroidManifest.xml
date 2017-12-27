@@ -35,6 +35,7 @@
         <activity android:name=".others.NIOActivity"/>
         <activity android:name=".others.RBLActivity"/>
         <activity android:name=".others.SerialReadActivity"/>
+        <activity android:name=".others.TextureViewActivity" android:theme="@style/NoTitleTheme"/>
         <activity android:name=".exoplayer.ExoPlayerActivity"/>
         <activity android:name=".exoplayer.SniffActivity"/>
         <activity android:name=".exoplayer.PlayListAvtivity"/>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/a"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:textColor="@color/colorWhite"
+            android:background="@color/transparent"
+            android:text="a" />
+
+        <Button
+            android:id="@+id/b"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:textColor="@color/colorWhite"
+            android:background="@color/transparent"
+            android:text="b" />
+
+        <Button
+            android:id="@+id/c"
+            style="@style/CommonButtonTheme"
+            android:layout_weight="1"
+            android:textColor="@color/colorWhite"
+            android:background="@color/transparent"
+            android:text="c" />
+
+    </LinearLayout>
+
+</FrameLayout>

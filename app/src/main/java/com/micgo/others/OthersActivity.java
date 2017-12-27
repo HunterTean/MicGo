@@ -43,6 +43,10 @@ public class OthersActivity extends AppCompatActivity {
                 Intent srIntent = SerialReadActivity.buildIntent(this);
                 startActivity(srIntent);
                 break;
+            case R.id.texture_view:
+                Intent tvIntent = TextureViewActivity.buildIntent(this);
+                startActivity(tvIntent);
+                break;
             default:
 
                 break;

@@ -35,6 +35,11 @@
                 style="@style/ButtonTheme"
                 android:text="serial read" />
 
+            <Button
+                android:id="@+id/texture_view"
+                style="@style/ButtonTheme"
+                android:text="texture view" />
+
         </LinearLayout>
 
     </ScrollView>
