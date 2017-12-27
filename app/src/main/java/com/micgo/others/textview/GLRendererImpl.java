@@ -28,7 +28,14 @@ public class GLRendererImpl implements GLRenderThread.GLRenderer {
     private final short[] mTexCoordsData = {0, 1, 1, 1, 0, 0, 1, 0};
 
     private int mStep = 0;
+
+    private int mUniformLocationTexA;
+    private int mUniformLocationTexB;
+    private int mUniformLocationTexC;
+
     private int mUniformLocationStep;
+
+    private int mUniformLocationAlpha;
 
     public GLRendererImpl(Context ctx) {
         mVertices = ByteBuffer.allocateDirect(mVerticesData.length * 4)
@@ -52,7 +59,12 @@ public class GLRendererImpl implements GLRenderThread.GLRenderer {
         loadTexture(new int[]{res});
         GLES20.glClearColor(0,  0, 0, 0);
 
+        mUniformLocationTexA = GLES20.glGetUniformLocation(mProgramObject, "a_Texture");
+        mUniformLocationTexB = GLES20.glGetUniformLocation(mProgramObject, "b_Texture");
+        mUniformLocationTexC = GLES20.glGetUniformLocation(mProgramObject, "c_Texture");
+
         mUniformLocationStep = GLES20.glGetUniformLocation(mProgramObject, "image_step");
+        mUniformLocationAlpha = GLES20.glGetUniformLocation(mProgramObject, "image_alpha");
     }
 
     public void resize(int width, int height) {
@@ -75,8 +87,7 @@ public class GLRendererImpl implements GLRenderThread.GLRenderer {
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexID[0]);
-        int loc = GLES20.glGetUniformLocation(mProgramObject, "a_Texture");
-        GLES20.glUniform1i(loc, 0);
+        GLES20.glUniform1i(mUniformLocationTexA, 0);
 
         GLES20.glUniform1i(mUniformLocationStep, 0);
 
@@ -98,18 +109,15 @@ public class GLRendererImpl implements GLRenderThread.GLRenderer {
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexID[0]);
-        int loc_a = GLES20.glGetUniformLocation(mProgramObject, "a_Texture");
-        GLES20.glUniform1i(loc_a, 0);
+        GLES20.glUniform1i(mUniformLocationTexA, 0);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexID[1]);
-        int loc_b = GLES20.glGetUniformLocation(mProgramObject, "b_Texture");
-        GLES20.glUniform1i(loc_b, 1);
+        GLES20.glUniform1i(mUniformLocationTexB, 1);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTexID[2]);
-        int loc_c = GLES20.glGetUniformLocation(mProgramObject, "c_Texture");
-        GLES20.glUniform1i(loc_c, 2);
+        GLES20.glUniform1i(mUniformLocationTexC, 2);
 
         mStep++;
         if (mStep > 99) {
@@ -127,8 +135,7 @@ public class GLRendererImpl implements GLRenderThread.GLRenderer {
         } else {
             mAlpha = (float)(mStep - 75) / 25;
         }
-        int loc_alpha = GLES20.glGetUniformLocation(mProgramObject, "image_alpha");
-        GLES20.glUniform1f(loc_alpha, mAlpha);
+        GLES20.glUniform1f(mUniformLocationAlpha, mAlpha);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
     }
