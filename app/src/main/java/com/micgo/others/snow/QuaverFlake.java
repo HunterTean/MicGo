@@ -36,6 +36,7 @@ public class QuaverFlake {
         mAngle = angle;
         mOffsetY = offsetY;
         mBitmapID = mRandom.getRandom(2);
+        mScale = (float) (Math.random() / 2 + 0.5);
     }
 
     public static QuaverFlake create(int width, int height, Paint paint) {
@@ -105,7 +106,7 @@ public class QuaverFlake {
 
         mIncrement = mRandom.getRandom(INCREMENT_LOWER, INCREMENT_UPPER);
 
-        mScale = (float) Math.random();
+        mScale = (float) (Math.random() / 2 + 0.5);
 
         mRotate = (int) (Math.random() * 360);
 
