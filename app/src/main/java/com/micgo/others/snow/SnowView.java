@@ -45,6 +45,7 @@ public class SnowView extends View {
     }
 
     private void initSnow(int width, int height) {
+        KTVLog.d("Tian", "density = " + getContext().getResources().getDisplayMetrics().density);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); // 抗锯齿
         paint.setColor(Color.WHITE); // 白色雪花
         paint.setStyle(Paint.Style.FILL); // 填充;
@@ -58,11 +59,9 @@ public class SnowView extends View {
 
     private void loadBitmaps() {
 //        mBitmaps[0] = decodeSampledBitmapFromStream(getResources(), R.drawable.record_download_quaver_1, KTVUtility.dpToPixel(getContext(), 20));
-        mBitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_1);
-        KTVLog.d("Tian", " mBitmaps[0].getWidth = " + mBitmaps[0].getWidth() + " | mBitmaps[0].getHeight() = " + mBitmaps[0].getHeight());
+        mBitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_0);
 //        mBitmaps[1] = decodeSampledBitmapFromStream(getResources(), R.drawable.record_download_quaver_2, KTVUtility.dpToPixel(getContext(), 20));
-        mBitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_2);
-        KTVLog.d("Tian", " mBitmaps[1].getWidth = " + mBitmaps[1].getWidth() + " | mBitmaps[1].getHeight() = " + mBitmaps[1].getHeight());
+        mBitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_1);
     }
 
     public static synchronized Bitmap decodeSampledBitmapFromStream(Resources resources, int in, int reqHeight) {

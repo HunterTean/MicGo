@@ -2,6 +2,7 @@ package com.micgo.others.snow;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 
@@ -23,6 +24,8 @@ public class QuaverFlake {
     private final Paint mPaint; // 画笔
     private int mOffsetY;
     private int mBitmapID;
+    private int mRotate;
+    private float mScale;
 
     private QuaverFlake(RandomGenerator random, Point position, int angle, float increment, float flakeSize, int offsetY, Paint paint) {
         mRandom = random;
@@ -60,7 +63,15 @@ public class QuaverFlake {
         int width = canvas.getWidth();
         int height = canvas.getHeight();
         move(width, height);
-        canvas.drawBitmap(bitmap, mPosition.x, mPosition.y, mPaint);
+
+        int bmWidth = bitmap.getWidth();
+        int bmHeight = bitmap.getHeight();
+        Matrix matrix = new Matrix();
+        matrix.setRotate(mRotate++, bmWidth/2, bmHeight/2);
+        matrix.postScale(mScale, mScale);
+        matrix.postTranslate(mPosition.x, mPosition.y);
+
+        canvas.drawBitmap(bitmap, matrix, mPaint);
     }
 
     // 移动
@@ -94,6 +105,10 @@ public class QuaverFlake {
 
         mIncrement = mRandom.getRandom(INCREMENT_LOWER, INCREMENT_UPPER);
 
+        mScale = (float) Math.random();
+
+        mRotate = (int) (Math.random() * 360);
+
         mAngle = (int) (Math.random() * 360);
         float angleA = (float) (y / height / 2f * 360);
         float angleB = 360 - angleA;
@@ -102,8 +117,6 @@ public class QuaverFlake {
         mOffsetY = (int) mRandom.getRandom((height - mFlakeSize) / 2);
 
         mPosition.y = (int) (height / 2 * (Math.cos(getRadian(mAngle)) / 2 + 0.5)) + mOffsetY;
-
-
     }
 
     public int getmBitmapID() {

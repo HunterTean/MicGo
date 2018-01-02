@@ -3,6 +3,8 @@ package com.micgo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 
 import com.micgo.ffmpeg.FFmpegActivity;
@@ -10,6 +12,7 @@ import com.micgo.mediacodec.MediaCodecActivity;
 import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
 import com.micgo.studio.NativeLib;
+import com.micgo.utils.KTVLog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
         NativeLib.getInstance();
 
+        initScreenParams(getWindowManager().getDefaultDisplay());
+    }
+
+    public void initScreenParams(Display display) {
+        DisplayMetrics metric = new DisplayMetrics();
+        display.getMetrics(metric);
+
+        KTVLog.d("MainActivity", "densityDpi = " + metric.densityDpi + ", density = " + metric.density + ", scaleDensity : " + metric.scaledDensity);
+        int width = metric.widthPixels; // 屏幕宽度（像素）
+        int height = metric.heightPixels; // 屏幕高度（像素） metric.heightPixels
+        KTVLog.d("MainActivity", "width = " + width + " | height = " + height);
     }
 
     public void onClick(View v) {
