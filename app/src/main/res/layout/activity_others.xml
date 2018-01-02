@@ -40,6 +40,11 @@
                 style="@style/ButtonTheme"
                 android:text="texture view" />
 
+            <Button
+                android:id="@+id/texture_snow"
+                style="@style/ButtonTheme"
+                android:text="snow" />
+
         </LinearLayout>
 
     </ScrollView>

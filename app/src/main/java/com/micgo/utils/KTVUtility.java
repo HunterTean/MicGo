@@ -1,5 +1,6 @@
 package com.micgo.utils;
 
+import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -14,6 +15,16 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class KTVUtility {
+
+    public static int pixelToDp(Context context, float px) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (px / scale + 0.5f);
+    }
+
+    public static int dpToPixel(Context context, int dipValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
+    }
 
     public static File getMGFile(String fileName) {
         String path = getMGFileDir().getAbsolutePath() + File.separator + fileName;

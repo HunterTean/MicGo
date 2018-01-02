@@ -47,6 +47,10 @@ public class OthersActivity extends AppCompatActivity {
                 Intent tvIntent = TextureViewActivity.buildIntent(this);
                 startActivity(tvIntent);
                 break;
+            case R.id.texture_snow:
+                Intent snowIntent = SnowActivity.buildIntent(this);
+                startActivity(snowIntent);
+                break;
             default:
 
                 break;
