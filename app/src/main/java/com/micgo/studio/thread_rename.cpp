@@ -2,7 +2,7 @@
 // Created by 刘洪天 on 17/5/19.
 //
 
-#include "thread_rename.h"
+#include "../../../../cpp/nativelib/thread_rename.h"
 
 void * thread_rename::thread1(void* arg) {
     LOGI("Tian thread_rename 1");

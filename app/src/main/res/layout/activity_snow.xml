@@ -15,16 +15,6 @@
             android:layout_height="44dp"
             android:background="@color/colorPrimary"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/record_download_quaver_0"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/record_download_quaver_1"/>
-
     </LinearLayout>
 
 </FrameLayout>

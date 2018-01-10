@@ -59,9 +59,9 @@ public class SnowView extends View {
 
     private void loadBitmaps() {
 //        mBitmaps[0] = decodeSampledBitmapFromStream(getResources(), R.drawable.record_download_quaver_1, KTVUtility.dpToPixel(getContext(), 20));
-        mBitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_0);
+//        mBitmaps[0] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_0);
 //        mBitmaps[1] = decodeSampledBitmapFromStream(getResources(), R.drawable.record_download_quaver_2, KTVUtility.dpToPixel(getContext(), 20));
-        mBitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_1);
+//        mBitmaps[1] = BitmapFactory.decodeResource(getResources(), R.drawable.record_download_quaver_1);
     }
 
     public static synchronized Bitmap decodeSampledBitmapFromStream(Resources resources, int in, int reqHeight) {
