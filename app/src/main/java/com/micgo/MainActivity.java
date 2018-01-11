@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.micgo.ffmpeg.FFmpegActivity;
 import com.micgo.mediacodec.MediaCodecActivity;
+import com.micgo.opengl.OpenGLActivity;
 import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
 import com.micgo.studio.NativeLib;
@@ -48,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.media_codec:
                 Intent mediaCodecIntent = MediaCodecActivity.buildIntent(this);
                 startActivity(mediaCodecIntent);
+                break;
+
+            case R.id.opengl:
+                Intent glIntent = OpenGLActivity.buildIntent(this);
+                startActivity(glIntent);
                 break;
 
             case R.id.opensl:

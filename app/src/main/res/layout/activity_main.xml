@@ -27,6 +27,11 @@
                 android:text="mediacodec"/>
 
             <Button
+                android:id="@+id/opengl"
+                style="@style/ButtonTheme"
+                android:text="OpenGL ES"/>
+
+            <Button
                 android:id="@+id/opensl"
                 style="@style/ButtonTheme"
                 android:text="OpenSL ES"/>
