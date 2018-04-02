@@ -55,10 +55,10 @@ public class LinkSourceAvtivity extends AppCompatActivity {
 
     private void preparePlayer() {
         MediaSource firstSource = new ExtractorMediaSource(firstUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
-        MediaSource secondSource = new ExtractorMediaSource(secondUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
-        MediaSource thirdSource = new ExtractorMediaSource(thirdUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
+//        MediaSource secondSource = new ExtractorMediaSource(secondUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
+//        MediaSource thirdSource = new ExtractorMediaSource(thirdUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
 
-        MergingMediaSource mergingMediaSource = new MergingMediaSource(firstSource, secondSource, thirdSource);
+//        MergingMediaSource mergingMediaSource = new MergingMediaSource(firstSource, secondSource, thirdSource);
 
         player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector(new Handler()), new DefaultLoadControl());
         player.addListener(plStateListener);
@@ -66,7 +66,8 @@ public class LinkSourceAvtivity extends AppCompatActivity {
         SimpleExoPlayerView simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.simple_exo_player_view);
 
         simpleExoPlayerView.setPlayer(player);
-        player.prepare(mergingMediaSource);
+        player.prepare(firstSource);
+//        player.prepare(mergingMediaSource);
         player.setPlayWhenReady(true);
     }
 

@@ -40,6 +40,8 @@ import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.NalUnitUtil;
 import com.google.android.exoplayer2.util.TraceUtil;
 import com.google.android.exoplayer2.util.Util;
+import com.google.android.exoplayer2.video.MediaCodecVideoRenderer;
+
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -525,13 +527,18 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
    * @throws ExoPlaybackException If an error occurs feeding the input buffer.
    */
   private boolean feedInputBuffer() throws ExoPlaybackException {
+    if (this instanceof MediaCodecVideoRenderer) {
+      Log.d("Tian", "video feedInputBuffer 0 | inputIndex = " + inputIndex);
+    }
     if (inputStreamEnded
         || codecReinitializationState == REINITIALIZATION_STATE_WAIT_END_OF_STREAM) {
       // The input stream has ended, or we need to re-initialize the codec but are still waiting
       // for the existing codec to output any final output buffers.
       return false;
     }
-
+    if (this instanceof MediaCodecVideoRenderer) {
+      Log.d("Tian", "video feedInputBuffer 1 | inputIndex = " + inputIndex);
+    }
     if (inputIndex < 0) {
       inputIndex = codec.dequeueInputBuffer(0);
       if (inputIndex < 0) {
@@ -540,7 +547,9 @@ public abstract class MediaCodecRenderer extends BaseRenderer {
       buffer.data = inputBuffers[inputIndex];
       buffer.clear();
     }
-
+    if (this instanceof MediaCodecVideoRenderer) {
+      Log.d("Tian", "video feedInputBuffer 2 | inputIndex = " + inputIndex);
+    }
     if (codecReinitializationState == REINITIALIZATION_STATE_SIGNAL_END_OF_STREAM) {
       // We need to re-initialize the codec. Send an end of stream signal to the existing codec so
       // that it outputs any remaining buffers before we release it.
