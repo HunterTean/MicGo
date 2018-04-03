@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
-import com.micgo.studio.NativeLib;
+import com.micgo.studio.NativeGo;
 
 /**
  * Created by liuhongtian on 17/7/25.
@@ -43,7 +43,7 @@ public class FFmpegActivity extends AppCompatActivity {
                 break;
 
             case R.id.lab:
-                NativeLib.getInstance().createThread();
+                NativeGo.getInstance().createThread();
                 break;
 
             default:

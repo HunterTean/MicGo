@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.micgo.R;
-import com.micgo.studio.NativeLib;
 import com.micgo.studio.gl.GLESController;
 
 /**

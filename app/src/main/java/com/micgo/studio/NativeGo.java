@@ -4,24 +4,24 @@ package com.micgo.studio;
  * Created by liuhongtian on 17/2/25.
  */
 
-public class NativeLib {
+public class NativeGo {
 
     // Used to load the 'native-lib' library on application startup.
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("nativego");
     }
 
-    private NativeLib() {}
+    private NativeGo() {}
 
-    public static NativeLib getInstance() {
+    public static NativeGo getInstance() {
         return LazyHolder.INST;
     }
 
     private static class LazyHolder {
-        private static final NativeLib INST;
+        private static final NativeGo INST;
 
         static  {
-            INST = new NativeLib();
+            INST = new NativeGo();
         }
     }
 

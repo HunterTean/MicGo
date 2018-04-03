@@ -12,7 +12,7 @@ import com.micgo.mediacodec.MediaCodecActivity;
 import com.micgo.opengl.OpenGLActivity;
 import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
-import com.micgo.studio.NativeLib;
+import com.micgo.studio.NativeGo;
 import com.micgo.utils.KTVLog;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NativeLib.getInstance();
+        NativeGo.getInstance();
 
         initScreenParams(getWindowManager().getDefaultDisplay());
     }

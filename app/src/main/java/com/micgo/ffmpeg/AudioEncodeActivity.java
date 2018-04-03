@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.micgo.R;
-import com.micgo.studio.NativeLib;
+import com.micgo.studio.NativeGo;
 
 /**
  * Created by liuhongtian on 17/5/19.
@@ -27,7 +27,7 @@ public class AudioEncodeActivity extends AppCompatActivity {
         setTitle("Audio Encode");
 
         textView = (TextView) findViewById(R.id.tips_tx);
-        textView.setText(NativeLib.getInstance().stringFromJNI());
+        textView.setText(NativeGo.getInstance().stringFromJNI());
     }
 
     public void onClick(View view) {
