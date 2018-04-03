@@ -1,4 +1,4 @@
-package com.micgo.ffmpeg.primary;
+package com.micgo.ffmpeg;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,25 +9,23 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.micgo.R;
-import com.micgo.studio.NativeLib;
 
 /**
- * Created by liuhongtian on 17/5/19.
+ * Created by liuhongtian on 18/4/3.
  */
 
-public class AudioEncodeActivity extends AppCompatActivity {
+public class VideoConcatActivity extends AppCompatActivity {
 
     TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_audio_encode);
+        setContentView(R.layout.activity_video_concat);
 
-        setTitle("Audio Encode");
+        setTitle("Video Concat");
 
         textView = (TextView) findViewById(R.id.tips_tx);
-        textView.setText(NativeLib.getInstance().stringFromJNI());
     }
 
     public void onClick(View view) {
@@ -35,8 +33,7 @@ public class AudioEncodeActivity extends AppCompatActivity {
         switch (id)
         {
             case R.id.a_btn:
-                NativeLib.getInstance().createThread();
-                textView.setText("start thread!");
+
                 break;
             case R.id.b_btn:
 
@@ -48,7 +45,7 @@ public class AudioEncodeActivity extends AppCompatActivity {
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, AudioEncodeActivity.class);
+        Intent intent = new Intent(context, VideoConcatActivity.class);
         return intent;
     }
 

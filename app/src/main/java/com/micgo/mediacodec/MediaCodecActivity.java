@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
-import com.micgo.ffmpeg.primary.FFmpegPrimaryActivity;
 
 /**
  * Created by liuhongtian on 17/7/25.

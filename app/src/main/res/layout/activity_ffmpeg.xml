@@ -16,9 +16,19 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/primary"
+                android:id="@+id/audio_encode"
                 style="@style/ButtonTheme"
-                android:text="primary" />
+                android:text="audio encode" />
+
+            <Button
+                android:id="@+id/video_encode"
+                style="@style/ButtonTheme"
+                android:text="video encode" />
+
+            <Button
+                android:id="@+id/video_concat"
+                style="@style/ButtonTheme"
+                android:text="video concat" />
 
             <Button
                 android:id="@+id/lab"

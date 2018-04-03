@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
-import com.micgo.ffmpeg.primary.FFmpegPrimaryActivity;
+import com.micgo.studio.NativeLib;
 
 /**
  * Created by liuhongtian on 17/7/25.
@@ -28,13 +28,24 @@ public class FFmpegActivity extends AppCompatActivity {
         int id = view.getId();
         switch (id)
         {
-            case R.id.primary:
-                Intent ffmpegPrimaryActivity = FFmpegPrimaryActivity.buildIntent(this);
-                startActivity(ffmpegPrimaryActivity);
+            case R.id.audio_encode:
+                Intent audioEncodeIntent = AudioEncodeActivity.buildIntent(this);
+                startActivity(audioEncodeIntent);
                 break;
-            case R.id.lab:
+
+            case R.id.video_encode:
 
                 break;
+
+            case R.id.video_concat:
+                Intent videoConcatIntent = VideoConcatActivity.buildIntent(this);
+                startActivity(videoConcatIntent);
+                break;
+
+            case R.id.lab:
+                NativeLib.getInstance().createThread();
+                break;
+
             default:
 
                 break;

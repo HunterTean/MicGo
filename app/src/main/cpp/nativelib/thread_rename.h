@@ -5,7 +5,7 @@
 #ifndef MICGO_THREAD_RENAME_H
 #define MICGO_THREAD_RENAME_H
 
-#include "common_tools.h"
+#include "../libcommon/common_tools.h"
 #include <pthread.h>
 #include <unistd.h>
 
