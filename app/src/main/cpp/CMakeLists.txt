@@ -22,6 +22,7 @@ add_library(
     SHARED
     native_jni.cpp
     video_concat/VideoConcatProcessor.cpp
+    extract/ExtractProcessor.cpp
 )
 
 include_directories(
@@ -34,32 +35,15 @@ target_include_directories(
 
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libcommon
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libffmpeg
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/video_concat
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/video_concat/libvideo_concat
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/extract/libextract
 )
-
-#target_compile_options(
-#    nativego
-#    PRIVATE -UHAVE_CONFIG_H
-#    PRIVATE -std=gnu++11
-#    PRIVATE -Wno-c++11-narrowing
-#    PRIVATE -fPIC
-#)
-
-#set_target_properties(
-#    nativego
-#    PROPERTIES CMAKE_ANDROID_STL_TYPE stlport_static
-#)
-
-#target_compile_definitions(
-#    nativego
-#    PRIVATE -D__STDC_CONSTANT_MACROS
-#)
 
 target_link_libraries(
     nativego
 
     videoconcat
+    extract
 
     avfilter
     avformat
@@ -74,3 +58,4 @@ target_link_libraries(
 )
 
 ADD_SUBDIRECTORY(video_concat)
+ADD_SUBDIRECTORY(extract)

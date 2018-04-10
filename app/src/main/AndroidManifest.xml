@@ -27,6 +27,7 @@
         <activity android:name=".ffmpeg.FFmpegActivity"/>
         <activity android:name=".ffmpeg.AudioEncodeActivity"/>
         <activity android:name=".ffmpeg.VideoConcatActivity"/>
+        <activity android:name=".ffmpeg.ExtractActivity"/>
         <activity android:name=".mediacodec.MediaCodecActivity"/>
         <activity android:name=".mediacodec.SimpleAudioActivity"/>
         <activity android:name=".mediacodec.AudioTrackPcmActivity"/>

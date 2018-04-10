@@ -42,6 +42,11 @@ public class FFmpegActivity extends AppCompatActivity {
                 startActivity(videoConcatIntent);
                 break;
 
+            case R.id.extract:
+                Intent extractIntent = ExtractActivity.buildIntent(this);
+                startActivity(extractIntent);
+                break;
+
             case R.id.lab:
                 NativeGo.getInstance().createThread();
                 break;
