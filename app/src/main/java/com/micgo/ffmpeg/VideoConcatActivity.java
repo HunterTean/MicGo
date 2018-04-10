@@ -19,10 +19,10 @@ public class VideoConcatActivity extends AppCompatActivity {
 
     private TextView textView;
 
-    private final String video0 = "/sdcard/.mg/concat/cut0.mp4";
-    private final String video1 = "/sdcard/.mg/concat/cut1.mp4";
-    private final String video2 = "/sdcard/.mg/concat/cut2.mp4";
-    private final String video3 = "/sdcard/.mg/concat/cut3.mp4";
+    private final String video0 = "/sdcard/.mg/concat/video0.mp4";
+    private final String video1 = "/sdcard/.mg/concat/video1.mp4";
+    private final String video2 = "/sdcard/.mg/concat/video2.mp4";
+    private final String video3 = "/sdcard/.mg/concat/video3.mp4";
     private final String videoDst = "/sdcard/.mg/concat/dstConcat.mp4";
 
     private VideoConcatProcessor processor;
@@ -37,7 +37,6 @@ public class VideoConcatActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.tips_tx);
 
         processor = new VideoConcatProcessor();
-        processor.init(video0, video1, video2, video3, videoDst);
     }
 
     public void onClick(View view) {
@@ -45,6 +44,7 @@ public class VideoConcatActivity extends AppCompatActivity {
         switch (id)
         {
             case R.id.a_btn:
+                processor.init(video0, video1, video2, video3, videoDst);
                 processor.start();
                 break;
 
