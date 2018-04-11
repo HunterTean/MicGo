@@ -7,14 +7,19 @@
 
 #include <common_tools.h>
 
+extern "C"
+{
+#include <libavformat/avformat.h>
+}
+
 class Extractor {
 
 public:
     Extractor();
     ~Extractor();
 
-    void processMP3ToMP3(const char* inputPath, const char* outputPath, int startSecond, int endSecond);
-    void processMP4ToMP3(const char* inputPath, const char* outputPath, int startSecond, int endSecond);
+    int processMP3ToMP3(const char* inputPath, const char* outputPath, int startSecond, int endSecond);
+    int processMP4ToMP3(const char* inputPath, const char* outputPath, int startSecond, int endSecond);
 
 private:
 

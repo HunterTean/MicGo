@@ -19,9 +19,9 @@ public class ExtractActivity extends AppCompatActivity {
 
     private TextView textView;
 
-    private final String audioInputPath = "/sdcard/.mg/concat/video0.mp4";
-    private final String videoInputPath = "/sdcard/.mg/concat/video0.mp4";
-    private final String outputPath = "/sdcard/.mg/concat/video0.mp4";
+    private final String audioInputPath = "/sdcard/.mg/tongyang.mp3";
+    private final String videoInputPath = "/sdcard/.mg/yanyuan.mp4";
+    private final String outputPath = "/sdcard/.mg/extract/dst.mp3";
 
     private ExtractProcessor processor;
 

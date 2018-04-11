@@ -5,19 +5,6 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/libvideo_concat/video_concator.cpp
 )
 
-#target_compile_definitions(
-#    videoconcat
-#    PRIVATE -DHAVE_CONFIG_H
-#    PRIVATE -DFPM_ARM
-#)
-
-#target_compile_options(
-#    videoconcat
-#    PRIVATE -ffast-math
-#    PRIVATE -O3
-#    PRIVATE -std=gnu++11
-#)
-
 target_include_directories(
     videoconcat
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
