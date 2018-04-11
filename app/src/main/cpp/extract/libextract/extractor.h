@@ -22,6 +22,7 @@ public:
     int processMP4ToMP3(const char* inputPath, const char* outputPath, int startSecond, int endSecond);
 
 private:
+    int openOutputMP3File(const char *filename, AVFormatContext *iFmtCtx, AVFormatContext *oFmtCtx);
 
 
 };

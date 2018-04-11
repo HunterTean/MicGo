@@ -21,7 +21,8 @@ public class ExtractActivity extends AppCompatActivity {
 
     private final String audioInputPath = "/sdcard/.mg/tongyang.mp3";
     private final String videoInputPath = "/sdcard/.mg/yanyuan.mp4";
-    private final String outputPath = "/sdcard/.mg/extract/dst.mp3";
+//    private final String outputPath = "/sdcard/.mg/extract/dst.mp3";
+    private final String outputPath = "/sdcard/.mg/extract/dst.aac";
 
     private ExtractProcessor processor;
 
@@ -63,7 +64,7 @@ public class ExtractActivity extends AppCompatActivity {
     }
 
     private void processMP4ToMP3() {
-        processor.extractMP3FromMP4(audioInputPath, outputPath, 30, 60);
+        processor.extractMP3FromMP4(videoInputPath, outputPath, 30, 60);
     }
 
     @Override
