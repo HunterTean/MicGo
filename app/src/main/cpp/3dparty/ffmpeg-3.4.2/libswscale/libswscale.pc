@@ -1,0 +1,14 @@
+prefix=/Users/liuhongtian/Downloads/ffmpeg_install/
+exec_prefix=${prefix}
+libdir=/Users/liuhongtian/Downloads/ffmpeg_install//lib
+includedir=/Users/liuhongtian/Downloads/ffmpeg_install//include
+
+Name: libswscale
+Description: FFmpeg image rescaling library
+Version: 4.8.100
+Requires: 
+Requires.private: libavutil >= 55.78.100
+Conflicts:
+Libs: -L${libdir}  -lswscale 
+Libs.private: -lm
+Cflags: -I${includedir}

@@ -76,7 +76,7 @@ public class PlayListAvtivity extends AppCompatActivity {
 
         MediaSource mp4LocalNoSource = new ExtractorMediaSource(mp4LocalNoUri, new DefaultDataSourceFactory(this, "changab"), new DefaultExtractorsFactory(), new Handler(), plEventListener);
 
-        ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource(mp4Source, mp4Source);
+        ConcatenatingMediaSource concatenatingMediaSource = new ConcatenatingMediaSource(firstSource, thirdSource);
 
         player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector(new Handler()), new DefaultLoadControl());
         player.addListener(plStateListener);

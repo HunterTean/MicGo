@@ -124,46 +124,47 @@ int Extractor::processMP4ToMP3(const char *inputPath, const char *outputPath, in
         return ret;
     }
 
-    ret = avformat_alloc_output_context2(&out_ctx, NULL, NULL, outputPath);
-    if (!out_ctx) {
-        LOGI("Could not deduce output format from file extension: using MPEG.\n");
-        ret = avformat_alloc_output_context2(&out_ctx, NULL, "mpeg", outputPath);
-        if (!out_ctx) {
-            return ret;
-        }
-    }
+//    ret = avformat_alloc_output_context2(&out_ctx, NULL, NULL, outputPath);
+//    if (!out_ctx) {
+//        LOGI("Could not deduce output format from file extension: using MPEG.\n");
+//        ret = avformat_alloc_output_context2(&out_ctx, NULL, "mpeg", outputPath);
+//        if (!out_ctx) {
+//            return ret;
+//        }
+//    }
 
     int audio_index = 0;
-    for (int i = 0; i < in_ctx->nb_streams; i++) {
-        AVStream* inAVStream = in_ctx->streams[i];
-        if (inAVStream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-            LOGI("Extractor audio_index = %d.", audio_index);
-            audio_index = i;
-            AVCodec* avCodec = avcodec_find_decoder(inAVStream->codecpar->codec_id);
-            AVStream* outAVStream = avformat_new_stream(out_ctx, avCodec);
-            avcodec_parameters_copy(outAVStream->codecpar, inAVStream->codecpar);
-            if(ret < 0){
-                printf("Extractor copy context failed\n");
-                return -41;
-            }
-            outAVStream->codecpar->codec_tag = 0;
-            break;
-        }
-    }
+//    for (int i = 0; i < in_ctx->nb_streams; i++) {
+//        AVStream* inAVStream = in_ctx->streams[i];
+//        if (inAVStream->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
+//            LOGI("Extractor audio_index = %d.", audio_index);
+//            audio_index = i;
+//            AVCodec* avCodec = avcodec_find_decoder(inAVStream->codecpar->codec_id);
+//            AVStream* outAVStream = avformat_new_stream(out_ctx, avCodec);
+//            avcodec_parameters_copy(outAVStream->codecpar, inAVStream->codecpar);
+//            if(ret < 0){
+//                printf("Extractor copy context failed\n");
+//                return -41;
+//            }
+//            outAVStream->codecpar->codec_tag = 0;
+//            break;
+//        }
+//    }
+//
+//    avio_open(&out_ctx->pb, outputPath, AVIO_FLAG_READ_WRITE);
+//    if (out_ctx->pb == NULL) {
+//        LOGI("Extractor Could not open for writing");
+//        return -1;
+//    }
+//
+//    LOGI("Extractor will avformat_write_header");
+//    ret = avformat_write_header(out_ctx, NULL);
+//    if (ret < 0) {
+//        LOGI("Extractor Error occurred when opening output file: %s\n", av_err2str(ret));
+//        return 1;
+//    }
 
-    avio_open(&out_ctx->pb, outputPath, AVIO_FLAG_READ_WRITE);
-    if (out_ctx->pb == NULL) {
-        LOGI("Extractor Could not open for writing");
-        return -1;
-    }
-
-    LOGI("Extractor will avformat_write_header");
-    ret = avformat_write_header(out_ctx, NULL);
-    if (ret < 0) {
-        LOGI("Extractor Error occurred when opening output file: %s\n", av_err2str(ret));
-        return 1;
-    }
-//    openOutputMP3File(outputPath, in_ctx, out_ctx);
+    openOutputMP3File(outputPath, in_ctx, out_ctx);
 
     AVPacket pkt;
     av_init_packet(&pkt);
@@ -219,4 +220,92 @@ int Extractor::processMP4ToMP3(const char *inputPath, const char *outputPath, in
     avformat_free_context(out_ctx);
 
     return ret;
+}
+
+int Extractor::openOutputMP3File(const char *filename, AVFormatContext *iFmtCtx,
+                                 AVFormatContext *oFmtCtx) {
+    AVStream *out_stream;
+    AVStream *in_stream;
+    AVCodecContext *dec_ctx, *enc_ctx;
+    AVCodec *encoder;
+    int ret;
+    unsigned int i;
+    oFmtCtx = NULL;
+    avformat_alloc_output_context2(&oFmtCtx, NULL, NULL, filename);
+    if (!oFmtCtx) {
+        LOGI("Could notcreate output context\n");
+        return AVERROR_UNKNOWN;
+    }
+    for (i = 0; i < iFmtCtx->nb_streams; i++) {
+
+        in_stream = iFmtCtx->streams[i];
+        dec_ctx = in_stream->codec;
+
+        if (dec_ctx->codec_type == AVMEDIA_TYPE_AUDIO) {
+
+            out_stream = avformat_new_stream(oFmtCtx, NULL);
+            if (!out_stream) {
+                av_log(NULL, AV_LOG_ERROR, "Failedallocating output stream\n");
+                return AVERROR_UNKNOWN;
+            }
+            enc_ctx = out_stream->codec;
+
+            /* in this example, we choose transcoding to same codec */
+            LOGI("avcodec_find_encoder dec_ctx->codec_id = %d | enc_ctx->codec_id = %d | AV_CODEC_ID_MP3 = %d.", dec_ctx->codec_id, enc_ctx->codec_id, AV_CODEC_ID_MP3);
+//            AVCodec* encoder0 = avcodec_find_encoder(dec_ctx->codec_id);
+//            LOGI("Tian avcodec_open2 0 | sample_fmts = %d.", *encoder0->sample_fmts);
+            encoder = avcodec_find_encoder(AV_CODEC_ID_MP3);
+//            LOGI("Tian avcodec_open2 1");
+//            /* In this example, we transcode to same properties(picture size,
+//            * sample rate etc.). These properties can be changed for output
+//            * streams easily using filters */
+//            enc_ctx->sample_rate = dec_ctx->sample_rate;
+//            enc_ctx->channel_layout = dec_ctx->channel_layout;
+//            LOGI("Tian avcodec_open2 2");
+//            enc_ctx->channels = av_get_channel_layout_nb_channels(enc_ctx->channel_layout);
+//            LOGI("Tian avcodec_open2 3");
+//            /* take first format from list of supported formats */
+//            enc_ctx->sample_fmt = encoder0->sample_fmts[0];
+//            LOGI("Tian avcodec_open2 4");
+//            AVRational time_base = {1, enc_ctx->sample_rate};
+//            LOGI("Tian avcodec_open2 5");
+//            enc_ctx->time_base = time_base;
+//            LOGI("Tian avcodec_open2 6");
+//            enc_ctx->codec_type = AVMEDIA_TYPE_AUDIO;
+//            LOGI("Tian avcodec_open2 7");
+//            enc_ctx->bit_rate = 128000;
+//            enc_ctx->sample_fmt = AV_SAMPLE_FMT_S16;
+//            LOGI("Tian avcodec_open2 8");
+//            if (oFmtCtx->oformat->flags &AVFMT_GLOBALHEADER) {
+//                enc_ctx->flags |= CODEC_FLAG_GLOBAL_HEADER;
+//            }
+//            LOGI("Tian avcodec_open2 9");
+//            enc_ctx->codec_tag = 0;
+
+            /* Third parameter can be used to pass settings to encoder*/
+            ret = avcodec_open2(enc_ctx, encoder, NULL);
+            if (ret < 0) {
+                LOGI("Cannot openvideo encoder for stream %d\n", ret);
+                return ret;
+            }
+        }
+
+    }
+    av_dump_format(oFmtCtx, 0, filename, 1);
+
+    if (!(oFmtCtx->oformat->flags &AVFMT_NOFILE)) {
+        ret = avio_open(&oFmtCtx->pb, filename, AVIO_FLAG_WRITE);
+        if (ret < 0) {
+            LOGI("Could notopen output file '%s'", filename);
+            return ret;
+        }
+    }
+    /* init muxer, write output file header */
+    ret = avformat_write_header(oFmtCtx, NULL);
+    if (ret < 0) {
+        LOGI("Error occurred when openingoutput file\n");
+        return ret;
+    }
+    LOGI("openOutputMP3File done");
+    return 0;
 }
