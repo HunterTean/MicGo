@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
-import com.micgo.opengl.trans.OpenGLTansActivity;
+import com.micgo.opengl.trans.GLTansActivity;
 
 /**
  * Created by liuhongtian on 18/1/10.
@@ -29,7 +29,7 @@ public class OpenGLActivity extends AppCompatActivity {
         switch (id)
         {
             case R.id.trans:
-                Intent transIntent = OpenGLTansActivity.buildIntent(this);
+                Intent transIntent = GLTansActivity.buildIntent(this);
                 startActivity(transIntent);
                 break;
             default:

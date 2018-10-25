@@ -23,6 +23,7 @@ add_library(
     native_jni.cpp
     video_concat/VideoConcatProcessor.cpp
     extract/ExtractProcessor.cpp
+    glstudio/gl_controller.cpp
 )
 
 include_directories(
@@ -44,6 +45,7 @@ target_link_libraries(
 
     videoconcat
     extract
+    glstudio
 
     avfilter
     avformat
@@ -59,3 +61,4 @@ target_link_libraries(
 
 ADD_SUBDIRECTORY(video_concat)
 ADD_SUBDIRECTORY(extract)
+ADD_SUBDIRECTORY(glstudio)

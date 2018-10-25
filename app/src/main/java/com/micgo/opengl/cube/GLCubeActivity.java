@@ -1,4 +1,4 @@
-package com.micgo.opengl.trans;
+package com.micgo.opengl.cube;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.micgo.studio.gl.GLESController;
  * Created by liuhongtian on 18/1/10.
  */
 
-public class OpenGLTansActivity extends AppCompatActivity {
+public class GLCubeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class OpenGLTansActivity extends AppCompatActivity {
     }
 
     public static Intent buildIntent(Context context) {
-        Intent intent = new Intent(context, OpenGLTansActivity.class);
+        Intent intent = new Intent(context, GLCubeActivity.class);
         return intent;
     }
 
