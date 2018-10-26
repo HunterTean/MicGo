@@ -46,12 +46,19 @@ private:
     static void* threadStartCallback(void *myself);
     void renderLoop();
 
+    /** 调用线程与EGLThread通讯的消息类型与锁 **/
+    pthread_mutex_t mLock;
+    pthread_cond_t mCondition;
     enum RenderThreadMessage {
         MSG_NONE = 0,
         MSG_EGL_THREAD_CREATE,
         MSG_EGL_CUBE_SHOW,
         MSG_EGL_THREAD_EXIT
     };
+    RenderThreadMessage _msg;
+
+    bool initialize();
+    void destroy();
 
 };
 

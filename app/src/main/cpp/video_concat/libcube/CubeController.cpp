@@ -22,9 +22,15 @@
 
 CubeController::CubeController() {
 
+    pthread_mutex_init(&mLock, NULL);
+    pthread_cond_init(&mCondition, NULL);
+
 }
 
 CubeController::~CubeController() {
+
+    pthread_mutex_destroy(&mLock);
+    pthread_cond_destroy(&mCondition);
 
 }
 
@@ -51,11 +57,7 @@ void CubeController::renderLoop() {
                 initialize();
                 break;
             case MSG_EGL_CUBE_SHOW:
-                this->releaseCamera();
-                this->configCamera();
-                renderer->setDegress(degress,facingId == CAMERA_FACING_FRONT);
-                this->startCameraPreview();
-                cameraTextureRefresh = true;
+
                 break;
             case MSG_EGL_THREAD_EXIT:
                 renderingEnabled = false;
@@ -65,17 +67,17 @@ void CubeController::renderLoop() {
                 break;
         }
         _msg = MSG_NONE;
-        if (NULL != eglCore) {
-
-            if (cameraTextureRefresh ) {
-                cameraTextureRefresh = false;
-            }else{
-                this->processVideoFrame();
-                this->draw();
-            }
+//        if (NULL != eglCore) {
+//
+//            if (cameraTextureRefresh ) {
+//                cameraTextureRefresh = false;
+//            }else{
+//                this->processVideoFrame();
+//                this->draw();
+//            }
 
             pthread_cond_wait(&mCondition, &mLock);
-        }
+//        }
         pthread_mutex_unlock(&mLock);
     }
 }
