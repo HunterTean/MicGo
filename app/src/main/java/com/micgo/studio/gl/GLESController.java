@@ -1,5 +1,7 @@
 package com.micgo.studio.gl;
 
+import android.view.Surface;
+
 /**
  * Created by liuhongtian on 18/1/10.
  */
@@ -23,5 +25,11 @@ public class GLESController {
     public native String test();
 
     public native String test2();
+
+    public native void prepareEGLContext(Surface surface, int width, int height);
+
+    public native void destroyEGLContext();
+
+    public native void showCube();
 
 }
