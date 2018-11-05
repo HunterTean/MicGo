@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
+import com.micgo.opengl.cube.GLCubeActivity;
 import com.micgo.opengl.trans.GLTansActivity;
 
 /**
@@ -31,6 +32,10 @@ public class OpenGLActivity extends AppCompatActivity {
             case R.id.trans:
                 Intent transIntent = GLTansActivity.buildIntent(this);
                 startActivity(transIntent);
+                break;
+            case R.id.cube:
+                Intent cubeIntent = GLCubeActivity.buildIntent(this);
+                startActivity(cubeIntent);
                 break;
             default:
 

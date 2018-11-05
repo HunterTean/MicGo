@@ -4,16 +4,10 @@
 
 #include <jni.h>
 #include "libvideo_concat/video_concator.h"
-#include "../libcommon/common_tools.h"
-
-#include <android/native_window.h>
-#include <android/native_window_jni.h>
 
 #define LOG_TAG "VideoConcatProcessor_jni"
 
 VideoConcator* videoConcator;
-
-static ANativeWindow *window = 0;
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -50,37 +44,5 @@ JNIEXPORT void JNICALL
 Java_com_micgo_studio_ffmpeg_VideoConcatProcessor_destroy(JNIEnv *env, jobject instance) {
 
     // TODO
-
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_micgo_studio_gl_GLESController_prepareEGLContext(JNIEnv *env, jobject instance,
-                                                          jobject surface, jint width,
-                                                          jint height) {
-    if (surface != NULL) {
-        window = ANativeWindow_fromSurface(env, surface);
-        LOGI("Got window %p", window);
-//        previewController->prepareEGLContext(window, g_jvm, g_obj, screenWidth, screenHeight);
-    }
-
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_micgo_studio_gl_GLESController_showCube(JNIEnv *env, jobject instance) {
-
-    // TODO
-
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_micgo_studio_gl_GLESController_destroyEGLContext(JNIEnv *env, jobject instance) {
-
-    if(window){
-        ANativeWindow_release(window);
-        window = NULL;
-    }
 
 }

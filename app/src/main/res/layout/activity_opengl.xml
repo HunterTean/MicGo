@@ -17,6 +17,11 @@
                 style="@style/ButtonTheme"
                 android:text="trans" />
 
+            <Button
+                android:id="@+id/cube"
+                style="@style/ButtonTheme"
+                android:text="cube" />
+
         </LinearLayout>
 
     </ScrollView>

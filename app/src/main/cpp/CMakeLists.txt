@@ -54,6 +54,9 @@ target_link_libraries(
     swresample
     swscale
 
+    ${sles-lib}
+    ${glesv2-lib}
+    ${egl-lib}
     ${android-lib}
     ${log-lib}
     ${z-lib}
