@@ -49,7 +49,19 @@ void* WaveRender::threadStartCallback(void *myself) {
 void WaveRender::renderLoop() {
     initialize();
     while (isRunning) {
-        draw();
+        glViewport(0, 0, screenWidth, screenHeight);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glEnable(GL_BLEND);
+//        draw();
+        drawRed();
+        drawGreen();
+
+        glDisable(GL_BLEND);
+
+        eglSwapBuffers(display, surface);
     }
 }
 
@@ -131,24 +143,32 @@ bool WaveRender::initialize() {
     localtionPos = glGetAttribLocation(mGLProgId, "vPosition");
     localtionTex = glGetAttribLocation(mGLProgId, "vTexCords");
 
-    uniformPoints = glGetUniformLocation(mGLProgId, "pointPos");
+    uniformGreenPoints = glGetUniformLocation(mGLProgId, "pointPosG");
+    uniformRedPoints = glGetUniformLocation(mGLProgId, "pointPosR");
 
-    float testVertex[] = {-0.5f, -0.5f, 0.5f, -0.5f, 0.0f, 0.5f};
+    mGLRedProgId = loadProgram(vertexShaderSource, fragmentShaderRed);
+    localtionPosRed = glGetAttribLocation(mGLRedProgId, "vPosition");
+    localtionTexRed = glGetAttribLocation(mGLRedProgId, "vTexCords");
+    uniformPointsRed = glGetUniformLocation(mGLRedProgId, "pointPosR");
+
+    mGLGreenProgId = loadProgram(vertexShaderSource, fragmentShaderGreen);
+    localtionPosGreen = glGetAttribLocation(mGLGreenProgId, "vPosition");
+    localtionTexGreen = glGetAttribLocation(mGLGreenProgId, "vTexCords");
+    uniformPointsGreen = glGetUniformLocation(mGLGreenProgId, "pointPosG");
 
 //    glGenBuffers(1, &vboVertex);
 //    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
 //    glBufferData(GL_ARRAY_BUFFER, sizeof(testVertex), testVertex, GL_STATIC_DRAW);
     LOGI("loadProgram done. | localtionPos = %d", localtionPos);
 
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE);//混合函数
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     return true;
 }
 
 void WaveRender::draw() {
 //    LOGI("Tian WaveRender::draw | screenWidth = %d | screenHeight = %d", screenWidth, screenHeight);
-    glViewport(0, 0, screenWidth, screenHeight);
-
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(mGLProgId);
 
@@ -157,11 +177,16 @@ void WaveRender::draw() {
 //    glVertexAttribPointer(localtionPos, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 //    float testVertex[] = {-0.5f, -0.5f, 0.5f, -0.5f, 0.0f, 0.5f};
-    float testVertex[] = {
-            0.01f, 0.8f, 0.02f, 0.7f, 0.03f, 0.6f, 0.04f, 0.3f, 0.05f, 0.2f, 0.06f, 0.7f, 0.07f, 0.9f, 0.08f, 0.1f, 0.09f, 0.33f, 0.095f, 0.25f
+    float greenVertex[] = {
+            0.0f, 1.0f, 0.01f, 0.1f, 0.02f, 0.2f, 0.03f, 0.3f, 0.04f, 0.4f, 0.05f, 0.5f, 0.06f, 0.6f, 0.07f, 0.7f, 0.08f, 0.8f, 0.09f, 0.9f
     };
-    glUniform1fv(uniformPoints, 40, testVertex);
-//        glUniformMatrix4fv(uniformPoints[i], 2, GL_FALSE, testVertex);
+    glUniform1fv(uniformGreenPoints, 20, greenVertex);
+//      glUniformMatrix4fv(uniformPoints[i], 2, GL_FALSE, testVertex);
+
+    float redVertex[] = {
+            0.0f, 0.1f, 0.01f, 1.0f, 0.02f, 0.9f, 0.03f, 0.8f, 0.04f, 0.7f, 0.05f, 0.6f, 0.06f, 0.5f, 0.07f, 0.4f, 0.08f, 0.3f, 0.09f, 0.2f
+    };
+    glUniform1fv(uniformRedPoints, 20, redVertex);
 
     glVertexAttribPointer(localtionPos, 2, GL_FLOAT, GL_FALSE, 0, GL_VERTEX_COORDS);
     glEnableVertexAttribArray (localtionPos);
@@ -173,8 +198,51 @@ void WaveRender::draw() {
 //    glDrawArrays(GL_POINTS, 0, 3);
 
     glDisableVertexAttribArray(localtionPos);
+    glDisableVertexAttribArray(localtionTex);
 
-    eglSwapBuffers(display, surface);
+
+}
+
+void WaveRender::drawRed() {
+    glUseProgram(mGLRedProgId);
+
+    float redVertex[] = {
+            0.0f, 0.1f, 0.01f, 1.0f, 0.02f, 0.9f, 0.03f, 0.8f, 0.04f, 0.7f, 0.05f, 0.6f, 0.06f, 0.5f, 0.07f, 0.4f, 0.08f, 0.3f, 0.09f, 0.2f
+    };
+    glUniform1fv(uniformPointsRed, 20, redVertex);
+
+    glVertexAttribPointer(localtionPosRed, 2, GL_FLOAT, GL_FALSE, 0, GL_VERTEX_COORDS);
+    glEnableVertexAttribArray (localtionPosRed);
+
+    glVertexAttribPointer(localtionTexRed, 2, GL_FLOAT, GL_FALSE, 0, GL_TEXTURE_COORDS);
+    glEnableVertexAttribArray (localtionTexRed);
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//    glDrawArrays(GL_POINTS, 0, 3);
+
+    glDisableVertexAttribArray(localtionPosRed);
+    glDisableVertexAttribArray(localtionTexRed);
+
+}
+
+void WaveRender::drawGreen() {
+    glUseProgram(mGLGreenProgId);
+    float greenVertex[] = {
+            0.0f, 1.0f, 0.01f, 0.1f, 0.02f, 0.2f, 0.03f, 0.3f, 0.04f, 0.4f, 0.05f, 0.5f, 0.06f, 0.6f, 0.07f, 0.7f, 0.08f, 0.8f, 0.09f, 0.9f
+    };
+    glUniform1fv(uniformPointsGreen, 20, greenVertex);
+
+    glVertexAttribPointer(localtionPosGreen, 2, GL_FLOAT, GL_FALSE, 0, GL_VERTEX_COORDS);
+    glEnableVertexAttribArray (localtionPosGreen);
+
+    glVertexAttribPointer(localtionTexGreen, 2, GL_FLOAT, GL_FALSE, 0, GL_TEXTURE_COORDS);
+    glEnableVertexAttribArray (localtionTexGreen);
+
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//    glDrawArrays(GL_POINTS, 0, 3);
+
+    glDisableVertexAttribArray(localtionPosGreen);
+    glDisableVertexAttribArray(localtionTexGreen);
 }
 
 void WaveRender::destroyEGL() {

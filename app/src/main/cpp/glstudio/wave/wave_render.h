@@ -46,22 +46,71 @@ class WaveRender {
     const char *fragmentShaderSource = //"#version 330 core\n"
             "precision highp float;\n"
             "varying vec2 uvCoords;\n"
-            "uniform float pointPos[20];\n"
+            "uniform float pointPosG[20];\n"
+            "uniform float pointPosR[20];\n"
             "void main()\n"
             "{\n"
 //            "   float minusX = uvCoords.x - pointPos[0];\n"
 //            "   float minusY = uvCoords.y - pointPos[1];\n"
             "   int indexX = 0;\n"
             "   indexX = int(uvCoords.x * 10.0);\n"
-            "   int pointY = indexX * 2 + 1;\n"
-            "   float minusY = uvCoords.y - pointPos[pointY];\n"
-//            "   if (minusX < 0.0014 && minusX > -0.0014 && minusY > 0.0) {\n"
-            "   if (minusY > 0.0) {\n"
-            "       gl_FragColor = vec4(0.8, 0.8, 0.8, 1.0);\n"
+            "   int indexY = indexX * 2 + 1;\n"
+            "   float greenY = pointPosG[indexY];\n"
+            "   float redY = pointPosR[indexY];\n"
+            "   if (uvCoords.y > greenY - 0.02 && uvCoords.y > redY - 0.02) {\n" //红绿面交集
+            "       gl_FragColor = vec4(0.41568627, 0.82745098, 0.74117647, 0.4);\n"
+            "   } else if (uvCoords.y - greenY < 0.02 && uvCoords.y - greenY > -0.02) {\n" // 绿线
+            "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 1.0);\n"
+            "   } else if (uvCoords.y < redY - 0.02 && uvCoords.y > greenY + 0.02) {\n" // 绿面
+            "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 0.4);\n"
+            "   } else if (uvCoords.y == greenY) {\n" // 绿面盖红线
+            "       gl_FragColor = vec4(0.10980392, 0.36078431, 0.33333333, 0.1);\n"
+            "   } else if (uvCoords.y - redY < 0.02 && uvCoords.y - redY > -0.02) {\n" // 红线
+            "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 1.0);\n"
+            "   } else if (uvCoords.y > redY && uvCoords.y < greenY) {\n" // 红面
+            "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 0.4);\n"
             "   } else {\n"
-            "       gl_FragColor = vec4(0.2, 0.2, 0.2, 1.0);\n"
+            "       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
             "   }\n"
             "}\n";
+
+    const char *fragmentShaderRed = //"#version 330 core\n"
+            "precision highp float;\n"
+                    "varying vec2 uvCoords;\n"
+                    "uniform float pointPosR[20];\n"
+                    "void main()\n"
+                    "{\n"
+                    "   int indexX = 0;\n"
+                    "   indexX = int(uvCoords.x * 10.0);\n"
+                    "   int indexY = indexX * 2 + 1;\n"
+                    "   float redY = pointPosR[indexY];\n"
+                    "   if (uvCoords.y - redY < 0.02 && uvCoords.y - redY > -0.02) {\n" // 红线
+                    "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 1.0);\n"
+                    "   } else if (uvCoords.y > redY + 0.02) {\n" // 红面
+                    "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 0.4);\n"
+                    "   } else {\n"
+                    "       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
+                    "   }\n"
+                    "}\n";
+
+    const char *fragmentShaderGreen = //"#version 330 core\n"
+            "precision highp float;\n"
+                    "varying vec2 uvCoords;\n"
+                    "uniform float pointPosG[20];\n"
+                    "void main()\n"
+                    "{\n"
+                    "   int indexX = 0;\n"
+                    "   indexX = int(uvCoords.x * 10.0);\n"
+                    "   int indexY = indexX * 2 + 1;\n"
+                    "   float greenY = pointPosG[indexY];\n"
+                    "   if (uvCoords.y - greenY < 0.02 && uvCoords.y - greenY > -0.02) {\n" // 绿线
+                    "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 1.0);\n"
+                    "   } else if (uvCoords.y > greenY + 0.02) {\n" // 绿面
+                    "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 0.4);\n"
+                    "   } else {\n"
+                    "       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
+                    "   }\n"
+                    "}\n";
 
     const GLfloat GL_VERTEX_COORDS[8] = {
             -1.0f, 1.0f,    // 0 bottom right
@@ -109,7 +158,18 @@ private:
 
     GLuint localtionPos;
     GLuint localtionTex;
-    GLuint uniformPoints;
+    GLuint uniformGreenPoints;
+    GLuint uniformRedPoints;
+
+    GLuint mGLRedProgId;
+    GLuint localtionPosRed;
+    GLuint localtionTexRed;
+    GLuint uniformPointsRed;
+
+    GLuint mGLGreenProgId;
+    GLuint localtionPosGreen;
+    GLuint localtionTexGreen;
+    GLuint uniformPointsGreen;
 
     GLuint vboVertex;
 
@@ -118,6 +178,8 @@ private:
 
     bool initialize();
     void draw();
+    void drawRed();
+    void drawGreen();
     void destroy();
 
     GLuint loadShader(GLenum shaderType, const char* pSource) {
@@ -128,14 +190,16 @@ private:
             GLint compiled = 0;
             glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
             if (!compiled) {
-                LOGI("Tian loadShader !compiled");
+                LOGI("Tian loadShader !compiled 0");
                 GLint infoLen = 0;
                 glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+                LOGI("Tian loadShader !compiled 1");
                 if (infoLen) {
+                    LOGI("Tian loadShader !compiled infoLen");
                     char* buf = (char*) malloc(infoLen);
                     if (buf) {
                         glGetShaderInfoLog(shader, infoLen, NULL, buf);
-                        LOGI("Could not compile shader %d:\n%s\n", shaderType, buf);
+                        LOGI("Tian Could not compile shader %d:\n%s\n", shaderType, buf);
                         free(buf);
                     }
                 } else {
@@ -143,7 +207,7 @@ private:
                     char* buf = (char*) malloc(0x1000);
                     if (buf) {
                         glGetShaderInfoLog(shader, 0x1000, NULL, buf);
-                        LOGI("Could not compile shader %d:\n%s\n", shaderType, buf);
+                        LOGI("Tian Could not compile shader %d:\n%s\n", shaderType, buf);
                         free(buf);
                     }
                 }
