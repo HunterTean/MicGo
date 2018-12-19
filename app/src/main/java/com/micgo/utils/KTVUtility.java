@@ -3,6 +3,8 @@ package com.micgo.utils;
 import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +17,17 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class KTVUtility {
+
+    private static KTVUtility ktvUtility = null;
+
+    private KTVUtility() {}
+
+    public static KTVUtility getInstance() {
+        if (ktvUtility == null) {
+            ktvUtility = new KTVUtility();
+        }
+        return ktvUtility;
+    }
 
     public static int pixelToDp(Context context, float px) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -94,6 +107,36 @@ public class KTVUtility {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static boolean isInitScreenParam = false;
+    private int width;
+    private int height;
+    private int densityDpi;
+    private float density;
+
+    public void initScreenParams(Display display) {
+        DisplayMetrics metric = new DisplayMetrics();
+        display.getMetrics(metric);
+        if (!isInitScreenParam) {
+            isInitScreenParam = true;
+            this.width = metric.widthPixels; // 屏幕宽度（像素）
+            this.height = metric.heightPixels; // 屏幕高度（像素） metric.heightPixels
+            // 包括信息栏
+            this.densityDpi = metric.densityDpi;
+            this.density = metric.density;
+
+            KTVLog.d("KTVUtility", "densityDpi = " + metric.densityDpi + ", density = " + metric.density + ", scaleDensity : " + metric.scaledDensity);
+            KTVLog.d("KTVUtility", "width = " + width + " | height = " + height);
+        }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
 }

@@ -14,6 +14,7 @@ import com.micgo.others.OthersActivity;
 import com.micgo.exoplayer.ExoPlayerActivity;
 import com.micgo.studio.NativeGo;
 import com.micgo.utils.KTVLog;
+import com.micgo.utils.KTVUtility;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,17 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         NativeGo.getInstance();
 
-        initScreenParams(getWindowManager().getDefaultDisplay());
-    }
-
-    public void initScreenParams(Display display) {
-        DisplayMetrics metric = new DisplayMetrics();
-        display.getMetrics(metric);
-
-        KTVLog.d("MainActivity", "densityDpi = " + metric.densityDpi + ", density = " + metric.density + ", scaleDensity : " + metric.scaledDensity);
-        int width = metric.widthPixels; // 屏幕宽度（像素）
-        int height = metric.heightPixels; // 屏幕高度（像素） metric.heightPixels
-        KTVLog.d("MainActivity", "width = " + width + " | height = " + height);
+        KTVUtility.getInstance().initScreenParams(getWindowManager().getDefaultDisplay());
     }
 
     public void onClick(View v) {
