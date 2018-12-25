@@ -3,7 +3,9 @@ add_library(
     STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/gl_controller.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/common/matrix.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/demo/CubeController.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/demo/cube_controller.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/wave/wave_render.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/wave/wave_particular.cpp
 )
 
 target_include_directories(

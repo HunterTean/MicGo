@@ -32,6 +32,9 @@
 #include <GLES2/gl2ext.h>
 #include <malloc.h>
 
+#include "wave_particular.h"
+#include <vector>
+
 class WaveRender {
 
     const char *vertexShaderSource = // "#version 330 core\n"0
@@ -84,9 +87,9 @@ class WaveRender {
                     "   indexX = int(uvCoords.x * 10.0);\n"
                     "   int indexY = indexX * 2 + 1;\n"
                     "   float redY = pointPosR[indexY];\n"
-                    "   if (uvCoords.y - redY < 0.02 && uvCoords.y - redY > -0.02) {\n" // 红线
+                    "   if (uvCoords.y - redY < 0.005 && uvCoords.y - redY > -0.005) {\n" // 红线
                     "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 1.0);\n"
-                    "   } else if (uvCoords.y > redY + 0.02) {\n" // 红面
+                    "   } else if (uvCoords.y > redY + 0.005) {\n" // 红面
                     "       gl_FragColor = vec4(0.86666667, 0.14509804, 0.29803922, 0.4);\n"
                     "   } else {\n"
                     "       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
@@ -103,13 +106,32 @@ class WaveRender {
                     "   indexX = int(uvCoords.x * 10.0);\n"
                     "   int indexY = indexX * 2 + 1;\n"
                     "   float greenY = pointPosG[indexY];\n"
-                    "   if (uvCoords.y - greenY < 0.02 && uvCoords.y - greenY > -0.02) {\n" // 绿线
+                    "   if (uvCoords.y - greenY < 0.005 && uvCoords.y - greenY > -0.005) {\n" // 绿线
                     "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 1.0);\n"
-                    "   } else if (uvCoords.y > greenY + 0.02) {\n" // 绿面
+                    "   } else if (uvCoords.y > greenY + 0.005) {\n" // 绿面
                     "       gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, 0.4);\n"
                     "   } else {\n"
                     "       gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);\n"
                     "   }\n"
+                    "}\n";
+
+    const char *vertexShaderParticular = // "#version 330 core\n"0
+            "attribute vec2 vPosition;\n"
+                    "attribute float vPointSize;\n"
+                    "attribute float aColor;\n"
+                    "varying float vColor;\n"
+                    "void main() {\n"
+                    "   vColor = aColor;\n"
+                    "   gl_PointSize = vPointSize;\n"
+                    "   gl_Position = vec4(vPosition.x, vPosition.y, 0.0, 1.0);\n"
+                    "}\n";
+
+    const char *fragmentShaderParticular = // "#version 330 core\n"0
+            "precision highp float;\n"
+                    "varying float vColor;\n"
+                    "void main()\n"
+                    "{\n"
+                    "    gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, vColor);\n"
                     "}\n";
 
     const GLfloat GL_VERTEX_COORDS[8] = {
@@ -171,15 +193,25 @@ private:
     GLuint localtionTexGreen;
     GLuint uniformPointsGreen;
 
+    GLuint mGLParticularProgId;
+    GLuint locationParticularPos;
+    GLuint locationParticularCol;
+    GLuint locationParticularSize;
+
     GLuint vboVertex;
 
     bool isInited;
     bool isRunning;
 
+    std::vector<WaveParticular*> particularVector;
+
+    void initParticulars();
+
     bool initialize();
     void draw();
     void drawRed();
     void drawGreen();
+    void drawParticular();
     void destroy();
 
     GLuint loadShader(GLenum shaderType, const char* pSource) {
@@ -219,19 +251,19 @@ private:
     }
 
     GLuint loadProgram(const char* pVertexSource, const char* pFragmentSource) {
-        LOGI("Tian | loadProgram 0");
+//        LOGI("Tian | loadProgram 0");
         GLuint vertexShader = loadShader(GL_VERTEX_SHADER, pVertexSource);
-        LOGI("Tian | loadProgram 1");
+//        LOGI("Tian | loadProgram 1");
         if (!vertexShader) {
             return 0;
         }
-        LOGI("Tian | loadProgram 2");
+//        LOGI("Tian | loadProgram 2");
         GLuint pixelShader = loadShader(GL_FRAGMENT_SHADER, pFragmentSource);
-        LOGI("Tian | loadProgram 3");
+//        LOGI("Tian | loadProgram 3");
         if (!pixelShader) {
             return 0;
         }
-        LOGI("Tian | loadProgram 4");
+//        LOGI("Tian | loadProgram 4");
         GLuint program = glCreateProgram();
         if (program) {
             glAttachShader(program, vertexShader);

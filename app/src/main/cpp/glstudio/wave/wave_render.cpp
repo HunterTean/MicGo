@@ -38,31 +38,9 @@ void WaveRender::prepareEGL(ANativeWindow *window, int screenWidth, int screenHe
 
     this->isRunning = true;
 
+    initParticulars();
+
     pthread_create(&_threadId, 0, threadStartCallback, this);
-}
-
-void* WaveRender::threadStartCallback(void *myself) {
-    WaveRender* controller = (WaveRender*) myself;
-    controller->renderLoop();
-}
-
-void WaveRender::renderLoop() {
-    initialize();
-    while (isRunning) {
-        glViewport(0, 0, screenWidth, screenHeight);
-
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glEnable(GL_BLEND);
-//        draw();
-        drawRed();
-        drawGreen();
-
-        glDisable(GL_BLEND);
-
-        eglSwapBuffers(display, surface);
-    }
 }
 
 bool WaveRender::initialize() {
@@ -83,10 +61,23 @@ bool WaveRender::initialize() {
     const EGLint attribs[] = { EGL_BUFFER_SIZE, 32, EGL_ALPHA_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                                EGL_SURFACE_TYPE, EGL_WINDOW_BIT, EGL_NONE };
 
+    const EGLint iCfgAttrList[] = {
+                    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+                    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+                    EGL_BUFFER_SIZE, 32,
+                    EGL_ALPHA_SIZE, 8,
+                    EGL_RED_SIZE, 8,
+                    EGL_GREEN_SIZE, 8,
+                    EGL_BLUE_SIZE, 8,
+                    EGL_SAMPLE_BUFFERS, 1,
+                    EGL_SAMPLES, 8,
+                    EGL_NONE
+            };
+
 //    const EGLint MaxConfigs = 10;
     EGLConfig configs; // We'll only accept 10 configs
     EGLint numConfigs;
-    if(!eglChooseConfig(display, attribs, &configs, 1, &numConfigs)) {
+    if(!eglChooseConfig(display, iCfgAttrList, &configs, 1, &numConfigs)) {
         // Something didn't work … handle error situation
         LOGI("Tian eglChooseConfig 0");
     } else {
@@ -156,6 +147,11 @@ bool WaveRender::initialize() {
     localtionTexGreen = glGetAttribLocation(mGLGreenProgId, "vTexCords");
     uniformPointsGreen = glGetUniformLocation(mGLGreenProgId, "pointPosG");
 
+    mGLParticularProgId = loadProgram(vertexShaderParticular, fragmentShaderParticular);
+    locationParticularPos = glGetAttribLocation(mGLParticularProgId, "vPosition");
+    locationParticularSize = glGetAttribLocation(mGLParticularProgId, "vPointSize");
+    locationParticularCol = glGetAttribLocation(mGLParticularProgId, "aColor");
+
 //    glGenBuffers(1, &vboVertex);
 //    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
 //    glBufferData(GL_ARRAY_BUFFER, sizeof(testVertex), testVertex, GL_STATIC_DRAW);
@@ -165,6 +161,32 @@ bool WaveRender::initialize() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return true;
+}
+
+void* WaveRender::threadStartCallback(void *myself) {
+    WaveRender* controller = (WaveRender*) myself;
+    controller->renderLoop();
+}
+
+void WaveRender::renderLoop() {
+    initialize();
+    while (isRunning) {
+        glViewport(0, 0, screenWidth, screenHeight);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glEnable(GL_BLEND);
+//        draw();
+        drawRed();
+        drawGreen();
+
+        drawParticular();
+
+        glDisable(GL_BLEND);
+
+        eglSwapBuffers(display, surface);
+    }
 }
 
 void WaveRender::draw() {
@@ -243,6 +265,66 @@ void WaveRender::drawGreen() {
 
     glDisableVertexAttribArray(localtionPosGreen);
     glDisableVertexAttribArray(localtionTexGreen);
+}
+
+#define PARTICULAR_S_NUM 40
+
+void WaveRender::initParticulars() {
+    for (int i = 0; i < PARTICULAR_S_NUM; i++) {
+        WaveParticular* particular = new WaveParticular();
+        particular->reset();
+        particularVector.push_back(particular);
+    }
+}
+
+void WaveRender::drawParticular() {
+    glUseProgram(mGLParticularProgId);
+
+//    const GLfloat point_pos[8] = {
+//            -0.5f, 0.5f,    // 0 bottom right
+//            0.5f, 0.5f,	    // 1 top right
+//            -0.5f, -0.5f,	// 2 top left
+//            0.5f, -0.5f,	// 3 bottom left
+//    };
+
+    GLfloat point_pos[PARTICULAR_S_NUM*2];
+    for (int i = 0; i < PARTICULAR_S_NUM; i++) {
+        particularVector.at(i)->move();
+        point_pos[i*2] = particularVector.at(i)->getX();
+        point_pos[i*2+1] = particularVector.at(i)->getY();
+    }
+//    const GLfloat point_size[4] = {
+//            2.0, 2.0, 3.0, 3.0
+//    };
+
+    GLfloat point_size[PARTICULAR_S_NUM];
+    for (int i = 0; i < PARTICULAR_S_NUM; i++) {
+        point_size[i] = particularVector.at(i)->getSize();
+    }
+
+//    const GLfloat point_color[16] = {
+//            0.14901961, 0.78431373, 0.65490196, 1.0,
+//            0.14901961, 0.78431373, 0.65490196, 0.8,
+//            0.14901961, 0.78431373, 0.65490196, 0.5,
+//            0.14901961, 0.78431373, 0.65490196, 0.2,
+//    };
+
+    GLfloat point_color[PARTICULAR_S_NUM];
+    for (int i = 0; i < PARTICULAR_S_NUM; i++) {
+        point_color[i] = particularVector.at(i)->getAlpha();
+    }
+
+    glVertexAttribPointer(locationParticularPos, 2, GL_FLOAT, GL_FALSE, 0, point_pos);
+    glEnableVertexAttribArray (locationParticularPos);
+
+    glVertexAttribPointer(locationParticularSize, 1, GL_FLOAT, GL_FALSE, 0, point_size);
+    glEnableVertexAttribArray (locationParticularSize);
+
+    glVertexAttribPointer(locationParticularCol, 1, GL_FLOAT, GL_FALSE, 0, point_color);
+    glEnableVertexAttribArray(locationParticularCol);
+
+    glDrawArrays(GL_POINTS, 0, PARTICULAR_S_NUM);
+
 }
 
 void WaveRender::destroyEGL() {
