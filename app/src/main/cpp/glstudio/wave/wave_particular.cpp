@@ -46,11 +46,11 @@ void WaveParticular::reset() {
 void WaveParticular::move() {
     x = (float) (0.1 * cos(getRadian(angle))) + offsetX;
     angle++;
-    LOGI("Tian | cos = %f", cos(getRadian(angle)));
 //    x = offsetX;
     y = speed * (currentTimeMills() - time) + y;
     if (y > 1.0) {
         reset();
+        move();
     }
 
     time = currentTimeMills();
@@ -59,12 +59,6 @@ void WaveParticular::move() {
 float WaveParticular::getRadian(int angle) {
     return (float) (3.14159265358979323846 / 180 * angle);
 }
-
-//float WaveParticular::ramdomX() {
-////    srand((unsigned)time(NULL));
-//    float x = (float)(rand() % 20 + 0.5) / 10 - 1;
-//    return x;
-//}
 
 float WaveParticular::ramdomY() {
     float y = (float) ((float)(rand() % 7) / 10 - 0.9);
@@ -77,7 +71,7 @@ float WaveParticular::ramdomAlpha() {
 }
 
 float WaveParticular::ramdomSize() {
-    float size = (float)(rand() % 25) / 10 + 2;
+    float size = (float)(rand() % 25) / 10 + 3;
     return size;
 }
 

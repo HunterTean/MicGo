@@ -131,7 +131,11 @@ class WaveRender {
                     "varying float vColor;\n"
                     "void main()\n"
                     "{\n"
+                    "   float d = distance(gl_PointCoord, vec2(0.5, 0.5));\n"
+                    "   if(d < 0.5){\n"  // 抗锯齿
                     "    gl_FragColor = vec4(0.14901961, 0.78431373, 0.65490196, vColor);\n"
+//                    "       gl_FragColor = vec4(1.0,0.0,0.0,1.0);\n"
+                    "   } else { discard; }\n"
                     "}\n";
 
     const GLfloat GL_VERTEX_COORDS[8] = {

@@ -61,14 +61,28 @@ bool WaveRender::initialize() {
     const EGLint attribs[] = { EGL_BUFFER_SIZE, 32, EGL_ALPHA_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                                EGL_SURFACE_TYPE, EGL_WINDOW_BIT, EGL_NONE };
 
-    const EGLint iCfgAttrList[] = {
+//    const EGLint iCfgAttrList[] = {
+//                    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+//                    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+//                    EGL_BUFFER_SIZE, 32,
+//                    EGL_ALPHA_SIZE, 8,
+//                    EGL_RED_SIZE, 8,
+//                    EGL_GREEN_SIZE, 8,
+//                    EGL_BLUE_SIZE, 8,
+//                    EGL_SAMPLE_BUFFERS, 1,
+//                    EGL_SAMPLES, 8,
+//                    EGL_NONE
+//            };
+
+    EGLint iCfgAttrList[] =
+            {
                     EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                     EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-                    EGL_BUFFER_SIZE, 32,
-                    EGL_ALPHA_SIZE, 8,
-                    EGL_RED_SIZE, 8,
-                    EGL_GREEN_SIZE, 8,
-                    EGL_BLUE_SIZE, 8,
+                    EGL_BUFFER_SIZE, 16,
+                    EGL_RED_SIZE, 5,
+                    EGL_GREEN_SIZE, 6,
+                    EGL_BLUE_SIZE, 5,
+                    EGL_DEPTH_SIZE, 16,
                     EGL_SAMPLE_BUFFERS, 1,
                     EGL_SAMPLES, 8,
                     EGL_NONE
@@ -267,7 +281,7 @@ void WaveRender::drawGreen() {
     glDisableVertexAttribArray(localtionTexGreen);
 }
 
-#define PARTICULAR_S_NUM 40
+#define PARTICULAR_S_NUM 80
 
 void WaveRender::initParticulars() {
     for (int i = 0; i < PARTICULAR_S_NUM; i++) {
@@ -280,34 +294,17 @@ void WaveRender::initParticulars() {
 void WaveRender::drawParticular() {
     glUseProgram(mGLParticularProgId);
 
-//    const GLfloat point_pos[8] = {
-//            -0.5f, 0.5f,    // 0 bottom right
-//            0.5f, 0.5f,	    // 1 top right
-//            -0.5f, -0.5f,	// 2 top left
-//            0.5f, -0.5f,	// 3 bottom left
-//    };
-
     GLfloat point_pos[PARTICULAR_S_NUM*2];
     for (int i = 0; i < PARTICULAR_S_NUM; i++) {
         particularVector.at(i)->move();
         point_pos[i*2] = particularVector.at(i)->getX();
         point_pos[i*2+1] = particularVector.at(i)->getY();
     }
-//    const GLfloat point_size[4] = {
-//            2.0, 2.0, 3.0, 3.0
-//    };
 
     GLfloat point_size[PARTICULAR_S_NUM];
     for (int i = 0; i < PARTICULAR_S_NUM; i++) {
         point_size[i] = particularVector.at(i)->getSize();
     }
-
-//    const GLfloat point_color[16] = {
-//            0.14901961, 0.78431373, 0.65490196, 1.0,
-//            0.14901961, 0.78431373, 0.65490196, 0.8,
-//            0.14901961, 0.78431373, 0.65490196, 0.5,
-//            0.14901961, 0.78431373, 0.65490196, 0.2,
-//    };
 
     GLfloat point_color[PARTICULAR_S_NUM];
     for (int i = 0; i < PARTICULAR_S_NUM; i++) {
