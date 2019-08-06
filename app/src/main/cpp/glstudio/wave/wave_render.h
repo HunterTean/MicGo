@@ -138,6 +138,19 @@ class WaveRender {
                     "   } else { discard; }\n"
                     "}\n";
 
+    const char *vertexShaderLine = // "#version 330 core\n"0
+            "attribute vec2 vPosition;\n"
+                    "void main() {\n"
+                    "   gl_Position = vec4(vPosition.x, vPosition.y, 0.0, 1.0);\n"
+                    "}\n";
+
+    const char *fragmentShaderLine = // "#version 330 core\n"0
+            "precision highp float;\n"
+                    "void main()\n"
+                    "{\n"
+                    "   gl_FragColor = vec4(0.0,1.0,0.0,1.0);\n"
+                    "}\n";
+
     const GLfloat GL_VERTEX_COORDS[8] = {
             -1.0f, 1.0f,    // 0 bottom right
             1.0f, 1.0f,	    // 1 top right
@@ -202,6 +215,9 @@ private:
     GLuint locationParticularCol;
     GLuint locationParticularSize;
 
+    GLuint mGLLineProgId;
+    GLuint locationLinePos;
+
     GLuint vboVertex;
 
     bool isInited;
@@ -212,9 +228,16 @@ private:
     void initParticulars();
 
     bool initialize();
+    void generateData(float* src, float** result, int srcLen, int* resultLen);
     void draw();
     void drawRed();
     void drawGreen();
+
+    void drawGreenLine();
+    void drawGreenSurface();
+
+    void drawRedTriangle();
+    void drawGreenTriangle();
     void drawParticular();
     void destroy();
 

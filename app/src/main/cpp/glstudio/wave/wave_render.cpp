@@ -61,37 +61,10 @@ bool WaveRender::initialize() {
     const EGLint attribs[] = { EGL_BUFFER_SIZE, 32, EGL_ALPHA_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                                EGL_SURFACE_TYPE, EGL_WINDOW_BIT, EGL_NONE };
 
-//    const EGLint iCfgAttrList[] = {
-//                    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-//                    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-//                    EGL_BUFFER_SIZE, 32,
-//                    EGL_ALPHA_SIZE, 8,
-//                    EGL_RED_SIZE, 8,
-//                    EGL_GREEN_SIZE, 8,
-//                    EGL_BLUE_SIZE, 8,
-//                    EGL_SAMPLE_BUFFERS, 1,
-//                    EGL_SAMPLES, 8,
-//                    EGL_NONE
-//            };
-
-    EGLint iCfgAttrList[] =
-            {
-                    EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-                    EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-                    EGL_BUFFER_SIZE, 16,
-                    EGL_RED_SIZE, 5,
-                    EGL_GREEN_SIZE, 6,
-                    EGL_BLUE_SIZE, 5,
-                    EGL_DEPTH_SIZE, 16,
-                    EGL_SAMPLE_BUFFERS, 1,
-                    EGL_SAMPLES, 8,
-                    EGL_NONE
-            };
-
 //    const EGLint MaxConfigs = 10;
     EGLConfig configs; // We'll only accept 10 configs
     EGLint numConfigs;
-    if(!eglChooseConfig(display, iCfgAttrList, &configs, 1, &numConfigs)) {
+    if(!eglChooseConfig(display, attribs, &configs, 1, &numConfigs)) {
         // Something didn't work … handle error situation
         LOGI("Tian eglChooseConfig 0");
     } else {
@@ -166,6 +139,9 @@ bool WaveRender::initialize() {
     locationParticularSize = glGetAttribLocation(mGLParticularProgId, "vPointSize");
     locationParticularCol = glGetAttribLocation(mGLParticularProgId, "aColor");
 
+    mGLLineProgId = loadProgram(vertexShaderLine, fragmentShaderLine);
+    locationLinePos = glGetAttribLocation(mGLLineProgId, "vPosition");
+
 //    glGenBuffers(1, &vboVertex);
 //    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
 //    glBufferData(GL_ARRAY_BUFFER, sizeof(testVertex), testVertex, GL_STATIC_DRAW);
@@ -192,8 +168,11 @@ void WaveRender::renderLoop() {
 
         glEnable(GL_BLEND);
 //        draw();
-        drawRed();
-        drawGreen();
+
+//        drawRed();
+//        drawGreen();
+
+        drawGreenLine();
 
         drawParticular();
 
@@ -279,6 +258,52 @@ void WaveRender::drawGreen() {
 
     glDisableVertexAttribArray(localtionPosGreen);
     glDisableVertexAttribArray(localtionTexGreen);
+}
+
+void WaveRender::generateData(float *src, float **result, int srcLen, int* resultLen) {
+    const float waveLineHeight = 0.005;
+    const float waveLineWidth = 300;
+
+    const int len = (srcLen - 1) * 4 * 3 * 2 * 2; // 4个三角形 每个三角形有3个顶点 每个顶点xy 每个顶点对应一个颜色
+
+    float data[len];
+    for (int i = 0; i < srcLen - 1; i++) {
+        // P1
+        data[i*8] = i / 300;
+        data[i*8 + 1] = src[i];
+        // C1
+        data[i*8 + 1] = src[i];
+        data[i*8 + 1] = src[i];
+
+    }
+
+    *result = data;
+    *resultLen = len;
+}
+
+void WaveRender::drawGreenLine() {
+    glUseProgram(mGLLineProgId);
+
+    float testVertex[] = {-1.0f, 0.0f, -0.9f, 0.1f, -0.8f, 0.2f, -0.7f, 0.3f, -0.6f, -0.2f, -0.5f, 0.0f};
+
+    glVertexAttribPointer(locationLinePos, 2, GL_FLOAT, GL_FALSE, 0, testVertex);
+    glEnableVertexAttribArray (locationLinePos);
+
+    glLineWidth(3);
+
+    glDrawArrays(GL_LINE_STRIP, 0, 6);
+}
+
+void WaveRender::drawGreenSurface() {
+
+}
+
+void WaveRender::drawRedTriangle() {
+
+}
+
+void WaveRender::drawGreenTriangle() {
+
 }
 
 #define PARTICULAR_S_NUM 80
