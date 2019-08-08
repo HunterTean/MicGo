@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.micgo.R;
+import com.micgo.utils.KTVLog;
 
 /**
  * Created by liuhongtian on 17/2/25.
@@ -21,6 +22,9 @@ public class OthersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_others);
 
         setTitle("Others");
+
+        boolean ret = dp_isMath("aab", "c*a*b");
+        KTVLog.d("Tian", "ret = " + ret);
     }
 
     public void onClick(View view) {
@@ -60,6 +64,19 @@ public class OthersActivity extends AppCompatActivity {
     public static Intent buildIntent(Context context) {
         Intent intent = new Intent(context, OthersActivity.class);
         return intent;
+    }
+
+    public boolean dp_isMath(String text, String pattern) {
+        if (pattern.isEmpty()) return text.isEmpty();
+        boolean first_match = (!text.isEmpty() &&
+                (pattern.charAt(0) == text.charAt(0) || pattern.charAt(0) == '.'));
+
+        if (pattern.length() >= 2 && pattern.charAt(1) == '*'){
+            return (dp_isMath(text, pattern.substring(2)) ||
+                    (first_match && dp_isMath(text.substring(1), pattern)));
+        } else {
+            return first_match && dp_isMath(text.substring(1), pattern.substring(1));
+        }
     }
 
 }

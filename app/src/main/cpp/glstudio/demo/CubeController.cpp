@@ -18,7 +18,7 @@
  *
  */
 
-#include "CubeController.h"
+#include "cube_controller.h"
 #include "../common/matrix.h"
 
 #define LOG_TAG "CubeController"
@@ -84,24 +84,18 @@ void CubeController::renderLoop() {
     }
 }
 
-const char *vertexShaderSource = "#version 330 core\n"
-        "layout (location = 0) in vec3 aPos;\n"
-        "layout (location = 1) in vec3 aColor;\n"
-        "out vec3 fragmentColor;\n"
-        "uniform mat4 transform;"
-        "void main()\n"
-        "{\n"
-        "   gl_Position = transform * vec4(aPos, 1.0);\n"
-        "   fragmentColor = aColor;"
-        "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-        "in vec3 fragmentColor;"
-        "out vec3 FragColor;\n"
-        "void main()\n"
-        "{\n"
-//        "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-        "   FragColor = fragmentColor;\n"
-        "}\n\0";
+static char *VERTEX_SHADER_FILTER =
+        "attribute vec4 position;    \n"
+        "void main(void)               \n"
+        "{                            \n"
+        "   gl_Position = position;  \n"
+        "}                            \n";
+
+static char* FRAG_SHADER_FILTER =
+        "precision highp float;\n"
+        "void main() {\n"
+        "  gl_FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+        "}\n";
 
 bool CubeController::initialize() {
     EGLint majorVersion;
@@ -119,18 +113,24 @@ bool CubeController::initialize() {
     const EGLint attribs[] = { EGL_BUFFER_SIZE, 32, EGL_ALPHA_SIZE, 8, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
                                EGL_SURFACE_TYPE, EGL_WINDOW_BIT, EGL_NONE };
 
-    const EGLint MaxConfigs = 10;
-    EGLConfig configs[MaxConfigs]; // We'll only accept 10 configs
+//    const EGLint MaxConfigs = 10;
+    EGLConfig configs; // We'll only accept 10 configs
     EGLint numConfigs;
-    if(!eglChooseConfig(display, attribs, configs, 1,
-                        &numConfigs)) {
+    if(!eglChooseConfig(display, attribs, &configs, 1, &numConfigs)) {
         // Something didn't work … handle error situation
+        LOGI("eglChooseConfig 0");
     } else {
         // Everything's okay. Continue to create a rendering surface
+        LOGI("eglChooseConfig 1");
     }
 
-    EGLNativeWindowType windowType;
-    surface = eglCreateWindowSurface(display, configs, windowType, NULL);
+    EGLint format;
+    if (!eglGetConfigAttrib(display, configs, EGL_NATIVE_VISUAL_ID, &format)) {
+        LOGI("eglGetConfigAttrib() returned error %d", eglGetError());
+        return surface;
+    }
+    ANativeWindow_setBuffersGeometry(_window, 0, 0, format);
+    surface = eglCreateWindowSurface(display, configs, _window, NULL);
     if (surface == EGL_NO_SURFACE) {
         switch(eglGetError())
         {
@@ -278,43 +278,61 @@ void CubeController::drawCube() {
     unsigned int vboVertex, vboColor, VAO;
 //    glGenVertexArrays(1, &VAO);
 //    glBindVertexArray(VAO);
+    glUseProgram(mGLProgId);
 
-    glGenBuffers(1, &vboVertex);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &vboColor);
-    glBindBuffer(GL_ARRAY_BUFFER, vboColor);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-
-    glEnableVertexAttribArray(1);
-
-    // Enable depth test
-    glEnable(GL_DEPTH_TEST);
-    // Accept fragment if it closer to the camera than the former one
-    glDepthFunc(GL_LESS);
+    float testVertex[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f};
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glGenBuffers(1, &vboVertex);
+    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(testVertex), testVertex, GL_STATIC_DRAW);
 
-    glUseProgram(mGLProgId);
+//    glGenBuffers(1, &vboColor);
+//    glBindBuffer(GL_ARRAY_BUFFER, vboColor);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    float rotateMatrix[4 * 4];
-    matrixSetIdentityM(rotateMatrix);
-    matrixRotateM(rotateMatrix, 30, 1, 1, 0);
+//    GLuint indexID;
+//    glGenBuffers(1, &indexID);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexID);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, )
+//    LOGI("Tian indexID = %d", indexID);
 
-    unsigned int transformLoc = glGetUniformLocation(mGLProgId, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, (GLfloat *) rotateMatrix);
+    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    // Enable depth test
+//    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+//    glDepthFunc(GL_LESS);
 
-    eglSwapBuffers(display, surface);
+    glEnableVertexAttribArray(0);
+//    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, vboVertex);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+//    glBindBuffer(GL_ARRAY_BUFFER, vboColor);
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexID);
+
+//    float rotateMatrix[4 * 4];
+//    matrixSetIdentityM(rotateMatrix);
+//    matrixRotateM(rotateMatrix, 30, 1, 1, 0);
+
+//    unsigned int transformLoc = glGetUniformLocation(mGLProgId, "transform");
+//    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, (GLfloat *) rotateMatrix);
+
+//    glDrawElements(GL_TRIANGLES, 36, GL_FLOAT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    glDisableVertexAttribArray(0);
+//    glDisableVertexAttribArray(1);
+
+    glDeleteBuffers(1, &vboVertex);
+//    glDeleteBuffers(1, &vboColor);
+
 }
 
 void CubeController::destroy() {
