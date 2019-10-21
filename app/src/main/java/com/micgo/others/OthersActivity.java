@@ -23,7 +23,8 @@ public class OthersActivity extends AppCompatActivity {
 
         setTitle("Others");
 
-        boolean ret = dp_isMath("aab", "c*a*b");
+//        boolean ret = dp_isMath("aab", "c*a*b");
+        boolean ret = dp_isMath("ab", ".");
         KTVLog.d("Tian", "ret = " + ret);
     }
 
