@@ -35,6 +35,7 @@
         <activity android:name=".opengl.OpenGLActivity"/>
         <activity android:name=".opengl.trans.GLTansActivity"/>
         <activity android:name=".opengl.cube.GLCubeActivity"/>
+        <activity android:name=".opengl.wave.GLWaveActivity"/>
         <activity android:name=".others.OthersActivity"/>
         <activity android:name=".others.CheckMetadataActivity"/>
         <activity android:name=".others.NIOActivity"/>

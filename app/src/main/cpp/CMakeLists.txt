@@ -24,6 +24,7 @@ add_library(
     video_concat/VideoConcatProcessor.cpp
     extract/ExtractProcessor.cpp
     glstudio/gl_controller.cpp
+    glstudio/wave/gl_wave_controller.cpp
 )
 
 include_directories(

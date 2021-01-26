@@ -11,6 +11,7 @@ import com.micgo.MicGoApplication;
 import com.micgo.R;
 import com.micgo.opengl.cube.GLCubeActivity;
 import com.micgo.opengl.trans.GLTansActivity;
+import com.micgo.opengl.wave.GLWaveActivity;
 
 /**
  * Created by liuhongtian on 18/1/10.
@@ -37,6 +38,10 @@ public class OpenGLActivity extends AppCompatActivity {
             case R.id.cube:
                 Intent cubeIntent = GLCubeActivity.buildIntent(this);
                 startActivity(cubeIntent);
+                break;
+            case R.id.wave:
+                Intent waveIntent = GLWaveActivity.buildIntent(this);
+                startActivity(waveIntent);
                 break;
             default:
 

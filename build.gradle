@@ -2,10 +2,23 @@
 
 buildscript {
     repositories {
-        jcenter()
+        def REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public/'
+        all { ArtifactRepository repo ->
+            if(repo instanceof MavenArtifactRepository){
+                def url = repo.url.toString()
+                if (url.startsWith('https://repo1.maven.org/maven2') || url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $REPOSITORY_URL."
+                    remove repo
+                }
+            }
+        }
+        maven {
+            url REPOSITORY_URL
+        }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:4.1.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,7 +27,23 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        def REPOSITORY_URL = 'http://maven.aliyun.com/nexus/content/groups/public/'
+        all { ArtifactRepository repo ->
+            if(repo instanceof MavenArtifactRepository){
+                def url = repo.url.toString()
+                if (url.startsWith('https://repo1.maven.org/maven2') || url.startsWith('https://jcenter.bintray.com/')) {
+                    project.logger.lifecycle "Repository ${repo.url} replaced by $REPOSITORY_URL."
+                    remove repo
+                }
+            }
+        }
+        maven {
+            url REPOSITORY_URL
+        }
+        google()
+        maven {
+            url 'https://repository.inkept.cn/repository/maven-releases'
+        }
     }
 }
 

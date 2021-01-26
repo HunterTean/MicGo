@@ -5,13 +5,15 @@
 #include <jni.h>
 #include <string>
 #include "../libcommon/common_tools.h"
-#include "demo/CubeController.h"
+#include "demo/cube_controller.h"
 
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
 
 static ANativeWindow *window = 0;
 CubeController* cubeController;
+
+#define LOG_TAG "CubeController_JNI"
 
 extern "C"
 JNIEXPORT jstring JNICALL Java_com_micgo_studio_gl_GLESController_test(JNIEnv *env, jobject instance) {
@@ -44,7 +46,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_micgo_studio_gl_GLESController_showCube(JNIEnv *env, jobject instance) {
 
-    
+
 
 }
 

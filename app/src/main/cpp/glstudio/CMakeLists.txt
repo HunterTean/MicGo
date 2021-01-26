@@ -12,14 +12,5 @@ target_include_directories(
     glstudio
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
     PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../libcommon
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../libffmpeg
 )
 
-target_link_libraries(
-    glstudio
-    avfilter
-    avformat
-    avcodec
-    swscale
-    swresample
-)

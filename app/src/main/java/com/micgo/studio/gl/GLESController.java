@@ -32,4 +32,10 @@ public class GLESController {
 
     public native void showCube();
 
+    public native void prepareWave(Surface surface, int width, int height);
+
+    public native void showWave();
+
+    public native void destroyWave();
+
 }

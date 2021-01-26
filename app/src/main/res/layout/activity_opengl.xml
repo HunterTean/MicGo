@@ -22,6 +22,11 @@
                 style="@style/ButtonTheme"
                 android:text="cube" />
 
+            <Button
+                android:id="@+id/wave"
+                style="@style/ButtonTheme"
+                android:text="wave" />
+
         </LinearLayout>
 
     </ScrollView>
